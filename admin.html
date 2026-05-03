@@ -4,77 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Dashboard | Photography by Norma & Eduardo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header class="site-header">
-    <div class="container nav-wrap">
-      <a class="logo" href="index.html">Photography by Norma &amp; Eduardo</a>
-      <nav>
-        <ul class="nav-list">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="booking.html">Booking</a></li>
-          <li><a href="admin.html" class="btn btn-sm">Admin</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+  <!-- Clean admin navigation and polished dashboard appearance -->
+  <header class="site-header"><div class="container nav-wrap"><a class="logo" href="index.html">Norma &amp; Eduardo</a><nav><ul class="nav-list"><li><a href="index.html">Home</a></li><li><a href="booking.html">Book a Session</a></li><li><a class="active" href="admin.html">Admin</a></li></ul></nav></div></header>
 
-  <main class="section">
-    <div class="container">
-      <h1>Private Admin Dashboard (Layout Preview)</h1>
-      <p class="section-intro">This is a UI-only dashboard for Phase 1. Authentication and live data will be added later.</p>
-
-      <section class="metrics-grid">
-        <article class="metric-card"><h3>Revenue</h3><p>$0.00</p></article>
-        <article class="metric-card"><h3>Total Bookings</h3><p>0</p></article>
-        <article class="metric-card"><h3>Top Package</h3><p>Standard Session</p></article>
-        <article class="metric-card"><h3>Studio vs Location</h3><p>0 / 0</p></article>
-      </section>
-
-      <section class="dashboard-grid">
-        <article class="panel">
-          <h2>Future Reservations</h2>
-          <ul class="placeholder-list">
-            <li>No future reservations yet.</li>
-          </ul>
-        </article>
-
-        <article class="panel">
-          <h2>Past Reservations</h2>
-          <ul class="placeholder-list">
-            <li>No past reservations yet.</li>
-          </ul>
-        </article>
-
-        <article class="panel">
-          <h2>Pending Payments</h2>
-          <ul class="placeholder-list">
-            <li>No pending payments yet.</li>
-          </ul>
-        </article>
-
-        <article class="panel">
-          <h2>Manual Reservation Form</h2>
-          <!-- Simple placeholder form for admin-created reservations -->
-          <form class="form-panel compact">
-            <label>Client Name<input type="text" /></label>
-            <label>Date<input type="date" /></label>
-            <label>Package
-              <select>
-                <option>Mini Session</option>
-                <option>Standard Session</option>
-                <option>Premium Session</option>
-                <option>Deluxe Session</option>
-              </select>
-            </label>
-            <button type="button" class="btn btn-sm">Save Draft</button>
-          </form>
-        </article>
-      </section>
-    </div>
-  </main>
-
+  <main class="section"><div class="container"><p class="eyebrow">Internal View</p><h1 class="section-title">Admin Dashboard (UI Preview)</h1><p class="section-intro">Still frontend-only for now. Practical layout with cleaner premium styling.</p>
+    <section class="metrics-grid"><article class="metric-card"><h3>Revenue</h3><p>$0.00</p></article><article class="metric-card"><h3>Total Bookings</h3><p>0</p></article><article class="metric-card"><h3>Top Package</h3><p>Standard</p></article><article class="metric-card"><h3>Studio vs Location</h3><p>0 / 0</p></article></section>
+    <section class="dashboard-grid"><article class="panel"><h2>Future Reservations</h2><ul class="placeholder-list"><li>No future reservations yet.</li></ul></article><article class="panel"><h2>Past Reservations</h2><ul class="placeholder-list"><li>No past reservations yet.</li></ul></article><article class="panel"><h2>Pending Payments</h2><ul class="placeholder-list"><li>No pending payments yet.</li></ul></article><article class="panel"><h2>Manual Reservation Form</h2><form class="form-panel"><label>Client Name<input type="text" /></label><label>Date<input type="date" /></label><label>Package<select><option>Mini Session</option><option>Standard Session</option><option>Premium Session</option><option>Deluxe Session</option></select></label><button type="button" class="btn btn-sm">Save Draft</button></form></article></section>
+  </div></main>
+  <footer class="site-footer"><div class="container footer-wrap"><p>© <span id="year"></span> Photography by Norma &amp; Eduardo</p><span>Private admin preview</span></div></footer>
   <script src="script.js"></script>
 </body>
 </html>
