@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book a Session | Photography by Norma & Eduardo</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="logo" href="index.html">Photography by Norma &amp; Eduardo</a>
+      <nav>
+        <ul class="nav-list">
+          <li><a href="index.html#packages">Packages</a></li>
+          <li><a href="booking.html" class="btn btn-sm">Book Now</a></li>
+          <li><a href="admin.html">Admin</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container">
+      <h1>Book Your Photography Session</h1>
+      <p class="section-intro">Complete the form below to request your date and receive confirmation.</p>
+
+      <!-- Booking form with fields requested by project requirements -->
+      <form id="bookingForm" class="form-panel" novalidate>
+        <div class="form-grid">
+          <label>Full Name
+            <input type="text" name="name" required />
+          </label>
+          <label>Phone
+            <input type="tel" name="phone" required />
+          </label>
+          <label>Email
+            <input type="email" name="email" required />
+          </label>
+          <label>Occasion
+            <input type="text" name="occasion" placeholder="Birthday, engagement, graduation..." required />
+          </label>
+
+          <label>Session Type
+            <select name="sessionType" id="sessionType" required>
+              <option value="Studio">Studio</option>
+              <option value="Location">Location</option>
+            </select>
+          </label>
+
+          <label>Package
+            <select name="package" id="packageSelect" required>
+              <option value="50">Mini Session — $50</option>
+              <option value="100">Standard Session — $100</option>
+              <option value="150">Premium Session — $150</option>
+              <option value="300">Deluxe Session — $300</option>
+            </select>
+          </label>
+
+          <label>Date
+            <input type="date" name="date" id="dateInput" required />
+          </label>
+
+          <label>Time
+            <input type="time" name="time" id="timeInput" min="08:00" max="20:00" required />
+          </label>
+
+          <!-- This address field appears only when Location is selected -->
+          <label id="addressField" class="hidden">Location Address
+            <input type="text" name="locationAddress" id="locationAddress" placeholder="Street, city, zip" />
+          </label>
+
+          <label>Payment Option
+            <select name="paymentOption" id="paymentOption" required>
+              <option value="deposit">Deposit (50%)</option>
+              <option value="full">Full Payment (100%)</option>
+            </select>
+          </label>
+        </div>
+
+        <!-- Pricing summary updates automatically with JavaScript -->
+        <section class="summary" aria-live="polite">
+          <h2>Payment Summary</h2>
+          <p>Estimated Total: <strong id="totalAmount">$50.00</strong></p>
+          <p>Deposit Amount (50%): <strong id="depositAmount">$25.00</strong></p>
+          <p>Balance Due: <strong id="balanceDue">$25.00</strong></p>
+          <p class="note">Location fee may apply for locations more than 10 minutes away: $20 to $100.</p>
+        </section>
+
+        <!-- Placeholder comments for future integrations -->
+        <!-- TODO: Add Stripe Checkout integration here in Phase 2 (do not place live keys in frontend). -->
+        <!-- TODO: Add Google Apps Script or backend endpoint for saving bookings in Phase 2. -->
+
+        <button type="submit" class="btn">Submit Booking Request</button>
+        <p id="formMessage" class="form-message"></p>
+      </form>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
