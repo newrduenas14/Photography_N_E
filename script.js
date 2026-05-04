@@ -1,9 +1,9 @@
-// Shared package data and business rules for booking calculations.
-const packagePrices = {
-  50: { name: "Mini Session", price: 50 },
-  100: { name: "Standard Session", price: 100 },
-  150: { name: "Premium Session", price: 150 },
-  300: { name: "Deluxe Session", price: 300 },
+// Package data (single source of truth): update names, prices, durations, and edited photo counts here.
+const packageCatalog = {
+  50: { name: "Mini Session", price: 50, duration: "30 minutes", editedPhotos: "10" },
+  100: { name: "Standard Session", price: 100, duration: "1 hour", editedPhotos: "20" },
+  150: { name: "Premium Session", price: 150, duration: "2 hours", editedPhotos: "30" },
+  300: { name: "Deluxe Session", price: 300, duration: "4 hours", editedPhotos: "60+" },
 };
 const depositRate = 0.5;
 
@@ -41,7 +41,7 @@ if (bookingForm) {
   const formMessage = document.getElementById("formMessage");
 
   function updateSummary() {
-    const total = packagePrices[Number(packageSelect.value)].price;
+    const total = packageCatalog[Number(packageSelect.value)].price;
     const deposit = total * depositRate;
     totalAmount.textContent = formatCurrency(total);
     depositAmount.textContent = formatCurrency(deposit);
