@@ -1,6 +1,6 @@
 // Package data (single source of truth): update names, prices, durations, and edited photo counts here.
 const packageCatalog = {
-  50: { name: "Mini Session", price: 50, duration: "30 minutes", editedPhotos: "10" },
+  50: { name: "Mini Session", price: 50, duration: "30 min", editedPhotos: "10" },
   100: { name: "Standard Session", price: 100, duration: "1 hour", editedPhotos: "20" },
   150: { name: "Premium Session", price: 150, duration: "2 hours", editedPhotos: "30" },
   300: { name: "Deluxe Session", price: 300, duration: "4 hours", editedPhotos: "60+" },
