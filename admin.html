@@ -8,12 +8,21 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Clean admin navigation and polished dashboard appearance -->
-  <header class="site-header"><div class="container nav-wrap"><a class="logo" href="index.html">Norma &amp; Eduardo</a><nav><ul class="nav-list"><li><a href="index.html">Home</a></li><li><a href="booking.html">Book a Session</a></li><li><a class="active" href="admin.html">Admin</a></li></ul></nav></div></header>
+  <header class="site-header"><a href="index.html" class="brand">Photography by Norma & Eduardo</a><nav class="main-nav"><a href="index.html">Home</a><a href="packages.html">Packages</a><a href="gallery.html">Gallery</a><a href="about.html">About</a><a href="booking.html">Book a Session</a><a href="contact.html">Contact</a><a class="active" href="admin.html">Admin</a></nav></header>
 
-  <main class="section"><div class="container"><p class="eyebrow">Internal View</p><h1 class="section-title">Admin Dashboard (UI Preview)</h1><p class="section-intro">Still frontend-only for now. Practical layout with cleaner premium styling.</p>
-    <section class="metrics-grid"><article class="metric-card"><h3>Revenue</h3><p>$0.00</p></article><article class="metric-card"><h3>Total Bookings</h3><p>0</p></article><article class="metric-card"><h3>Top Package</h3><p>Standard</p></article><article class="metric-card"><h3>Studio vs Location</h3><p>0 / 0</p></article></section>
-    <section class="dashboard-grid"><article class="panel"><h2>Future Reservations</h2><ul class="placeholder-list"><li>No future reservations yet.</li></ul></article><article class="panel"><h2>Past Reservations</h2><ul class="placeholder-list"><li>No past reservations yet.</li></ul></article><article class="panel"><h2>Pending Payments</h2><ul class="placeholder-list"><li>No pending payments yet.</li></ul></article><article class="panel"><h2>Manual Reservation Form</h2><form class="form-panel"><label>Client Name<input type="text" /></label><label>Date<input type="date" /></label><label>Package<select><option>Mini Session</option><option>Standard Session</option><option>Premium Session</option><option>Deluxe Session</option></select></label><button type="button" class="btn btn-sm">Save Draft</button></form></article></section>
+  <main class="section"><div class="container"><p class="eyebrow">Internal View</p><h1 class="section-title">Admin Dashboard (UI Preview)</h1><p class="section-intro">Frontend-only admin workspace with package-aligned reservation tracking.</p>
+    <section class="metrics-grid"><article class="metric-card"><h3>Revenue</h3><p>$1,100.00</p></article><article class="metric-card"><h3>Total Bookings</h3><p>8</p></article><article class="metric-card"><h3>Top Package</h3><p>Standard Session</p></article><article class="metric-card"><h3>Studio vs Location</h3><p>5 / 3</p></article></section>
+
+    <section class="panel" style="margin-top:1.5rem;"><h2>Overview</h2><p>Quick snapshot of reservation volume, package mix, and payment status. Calendar remains placeholder-only.</p></section>
+    <section class="dashboard-grid">
+      <article class="panel"><h2>All Reservations</h2><ul class="placeholder-list"><li>May 10, 2026 — Ana Flores — Mini Session — Paid Deposit</li><li>May 12, 2026 — Carlos Vega — Standard Session — Paid in Full</li><li>May 16, 2026 — Maya Ortiz — Premium Session — Pending Payment</li><li>May 20, 2026 — Lena Cruz — Deluxe Session — Paid Deposit</li></ul></article>
+      <article class="panel"><h2>Upcoming Reservations</h2><ul class="placeholder-list"><li>May 10, 2026 — Mini Session</li><li>May 12, 2026 — Standard Session</li><li>May 16, 2026 — Premium Session</li><li>May 20, 2026 — Deluxe Session</li></ul></article>
+      <article class="panel"><h2>Past Reservations</h2><ul class="placeholder-list"><li>April 14, 2026 — Standard Session — Completed</li><li>April 22, 2026 — Mini Session — Completed</li></ul></article>
+      <article class="panel"><h2>Pending Payments</h2><ul class="placeholder-list"><li>Maya Ortiz — Premium Session — $75.00 due</li><li>Lena Cruz — Deluxe Session — $150.00 due</li></ul></article>
+      <article class="panel"><h2>Manual Booking</h2><form class="form-panel"><label>Client Name<input type="text" /></label><label>Date<input type="date" /></label><label>Package<select><option>Mini Session</option><option>Standard Session</option><option>Premium Session</option><option>Deluxe Session</option></select></label><button type="button" class="btn btn-sm">Save Draft</button></form></article>
+      <article class="panel"><h2>Metrics</h2><ul class="placeholder-list"><li>Average booking value: $137.50</li><li>Deposit conversion: 75%</li><li>Deluxe upsell rate: 12%</li></ul></article>
+      <article class="panel"><h2>Calendar (Placeholder)</h2><ul class="placeholder-list"><li>Calendar view will be connected later.</li></ul></article>
+    </section>
   </div></main>
   <footer class="site-footer"><div class="container footer-wrap"><p>© <span id="year"></span> Photography by Norma &amp; Eduardo</p><span>Private admin preview</span></div></footer>
   <script src="script.js"></script>
