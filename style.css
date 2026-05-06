@@ -55,3 +55,28 @@ button{padding:.8rem 1.2rem;border:1px solid var(--ink);background:var(--ink);co
   .gallery-grid{grid-template-columns:1fr;}
   .gallery-grid .photo-placeholder{grid-column:span 1 !important;min-height:260px !important;}
 }
+
+/* Homepage image fitting adjustments */
+.home-page .photo-placeholder img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  object-position:center;
+}
+
+.home-page .logo-image{
+  width:112%;
+  height:112%;
+  max-width:none;
+  max-height:none;
+  object-fit:contain;
+  mix-blend-mode:multiply;
+  opacity:.98;
+}
+
+.home-page .hero-photo img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  object-position:center top;
+}
