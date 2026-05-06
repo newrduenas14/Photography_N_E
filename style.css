@@ -90,3 +90,32 @@ button{padding:.8rem 1.2rem;border:1px solid var(--ink);background:var(--ink);co
   object-fit:cover;
   object-position:center top;
 }
+
+
+/* Gallery image placeholders remain static; images crop within placeholders */
+.gallery-page .gallery-item,
+.gallery-page .gallery-card,
+.gallery-page .photo-placeholder,
+.gallery-page .gallery-placeholder {
+  overflow:hidden;
+}
+
+.gallery-page .gallery-item img,
+.gallery-page .gallery-card img,
+.gallery-page .photo-placeholder img,
+.gallery-page .gallery-placeholder img {
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  object-position:center;
+}
+
+.gallery-page .gallery-grid .photo-placeholder:nth-child(1){height:360px;min-height:0;}
+.gallery-page .gallery-grid .photo-placeholder:nth-child(2){height:300px;min-height:0;}
+.gallery-page .gallery-grid .photo-placeholder:nth-child(3){height:260px;min-height:0;}
+.gallery-page .gallery-grid .photo-placeholder:nth-child(4){height:300px;min-height:0;}
+
+@media (max-width: 980px){
+  .gallery-page .gallery-grid .photo-placeholder{height:260px !important;min-height:0 !important;}
+}
