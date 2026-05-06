@@ -80,7 +80,7 @@ if (bookingForm) {
       formMessage.style.color = "#ff7b7b";
       return;
     }
-    const buffer = sessionType.value === "Studio" ? 30 : 60;
+    const buffer = sessionType.value === "Studio" ? 30 : 120;
     formMessage.textContent = `Booking request received. ${sessionType.value} sessions require a ${buffer}-minute buffer.`;
     formMessage.style.color = "#e0c79c";
   });
