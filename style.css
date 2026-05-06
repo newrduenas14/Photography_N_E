@@ -57,17 +57,27 @@ button{padding:.8rem 1.2rem;border:1px solid var(--ink);background:var(--ink);co
 }
 
 /* Homepage image fitting adjustments */
-.home-page .logo-placeholder{min-height:340px;}
-.home-page .hero-photo{min-height:460px;}
-.home-page .grid-3 .photo-placeholder{min-height:320px;}
+.home-page .logo-placeholder,
+.home-page .hero-photo{
+  height:520px;
+  max-height:70vh;
+  min-height:0;
+  overflow:hidden;
+}
 
-.home-page .photo-placeholder img,
-.home-page .logo-image,
+.home-page .logo-placeholder img,
 .home-page .hero-photo img{
   width:100%;
   height:100%;
+  display:block;
+}
+
+.home-page .logo-placeholder img{
   object-fit:cover;
   object-position:center;
 }
 
-.home-page .hero-photo img{object-position:center top;}
+.home-page .hero-photo img{
+  object-fit:cover;
+  object-position:center top;
+}
