@@ -12,6 +12,7 @@ img{max-width:100%;display:block;object-fit:cover;}
 main{overflow:hidden;}
 .site-header{position:sticky;top:0;z-index:1000;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 6vw;background:rgba(246,244,242,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
 .brand{font:400 1.5rem "Playfair Display",serif;color:var(--ink);text-decoration:none;letter-spacing:.02em;}
+.logo{width:80px;height:auto;display:block;}
 .main-nav{display:flex;flex-wrap:wrap;gap:1.1rem;}
 .main-nav a{font-size:1rem;text-decoration:none;color:var(--ink);padding-bottom:.2rem;border-bottom:1px solid transparent;}
 .main-nav a:hover,.main-nav a.active{border-color:var(--ink);opacity:.8;}
