@@ -57,10 +57,19 @@ button{padding:.8rem 1.2rem;border:1px solid var(--ink);background:var(--ink);co
 }
 
 /* Homepage image fitting adjustments */
+.home-page .hero{
+  max-width:1400px;
+  width:92vw;
+  margin-left:auto;
+  margin-right:auto;
+  padding-left:0;
+  padding-right:0;
+}
+
 .home-page .logo-placeholder,
 .home-page .hero-photo{
-  height:520px;
-  max-height:70vh;
+  height:590px;
+  max-height:78vh;
   min-height:0;
   overflow:hidden;
 }
