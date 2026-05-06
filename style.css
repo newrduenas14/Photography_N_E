@@ -55,3 +55,38 @@ button{padding:.8rem 1.2rem;border:1px solid var(--ink);background:var(--ink);co
   .gallery-grid{grid-template-columns:1fr;}
   .gallery-grid .photo-placeholder{grid-column:span 1 !important;min-height:260px !important;}
 }
+
+/* Homepage image fitting adjustments */
+.home-page .hero{
+  max-width:1400px;
+  width:92vw;
+  margin-left:auto;
+  margin-right:auto;
+  padding-left:0;
+  padding-right:0;
+}
+
+.home-page .logo-placeholder,
+.home-page .hero-photo{
+  height:590px;
+  max-height:78vh;
+  min-height:0;
+  overflow:hidden;
+}
+
+.home-page .logo-placeholder img,
+.home-page .hero-photo img{
+  width:100%;
+  height:100%;
+  display:block;
+}
+
+.home-page .logo-placeholder img{
+  object-fit:cover;
+  object-position:center;
+}
+
+.home-page .hero-photo img{
+  object-fit:cover;
+  object-position:center top;
+}
