@@ -37,10 +37,10 @@ main{overflow:hidden;}
 .card p, .card li{font-size:1.05rem;}
 .gallery-category{margin-bottom:3rem;}
 .gallery-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:1rem;}
-.gallery-grid .photo-placeholder:nth-child(1){grid-column:span 7;min-height:400px;}
-.gallery-grid .photo-placeholder:nth-child(2){grid-column:span 5;min-height:400px;}
-.gallery-grid .photo-placeholder:nth-child(3){grid-column:span 5;min-height:400px;}
-.gallery-grid .photo-placeholder:nth-child(4){grid-column:span 7;min-height:400px;}
+.gallery-grid .photo-placeholder:nth-child(1){grid-column:span 6;min-height:380px;}
+.gallery-grid .photo-placeholder:nth-child(2){grid-column:span 6;min-height:380px;}
+.gallery-grid .photo-placeholder:nth-child(3){grid-column:span 6;min-height:380px;}
+.gallery-grid .photo-placeholder:nth-child(4){grid-column:span 6;min-height:380px;}
 .form-wrap{max-width:900px;background:var(--paper);border:1px solid var(--line);padding:2rem;}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
 label{display:block;font-size:.95rem;margin-bottom:.35rem;}
