@@ -25,6 +25,7 @@ main{overflow:hidden;}
 .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
 .hero{min-height:calc(100vh - 74px);display:grid;grid-template-columns:.9fr 1.1fr;gap:3rem;padding:4.5rem 8vw;background:var(--paper);}
 .logo-placeholder{min-height:420px;font-size:2rem;background:#f8f8f8;}
+.logo-image{width:100%;height:100%;object-fit:contain;display:block;}
 .hero-photo{min-height:580px;}
 .hero-image-wrap{position:relative;}
 .hero-mini-links{position:absolute;right:1rem;bottom:1rem;background:rgba(255,255,255,.9);padding:.8rem 1rem;display:flex;gap:1rem;flex-wrap:wrap;}
