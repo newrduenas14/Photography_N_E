@@ -20,6 +20,10 @@ main{overflow:hidden;}
 .kicker{font-size:1rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:1rem;}
 .lead{font-size:1.2rem;max-width:66ch;color:#2d2d2d;}
 .photo-placeholder{background:#ddd8d3;border:1px solid var(--line);min-height:260px;display:flex;align-items:center;justify-content:center;font:italic 1.4rem "Playfair Display",serif;color:#6c6965;}
+.image-frame{position:relative;}
+.image-frame .managed-image{display:none;}
+.image-frame.image-loaded .managed-image{display:block;}
+.image-frame.image-loaded .photo-placeholder{display:none;}
 .button-link,.text-link{display:inline-block;text-decoration:none;color:var(--ink);border-bottom:1px solid var(--ink);padding-bottom:.12rem;}
 
 .home-logo-image,
@@ -34,9 +38,9 @@ main{overflow:hidden;}
 .home-logo-image{aspect-ratio:4 / 3;object-fit:contain;padding:1.2rem;}
 .home-hero-image{aspect-ratio:16 / 9;min-height:580px;object-fit:cover;}
 .home-feature-image{aspect-ratio:4 / 3;object-fit:cover;}
-.home-preview-wrap:nth-child(1) .home-preview-image{aspect-ratio:3 / 2;object-fit:cover;}
-.home-preview-wrap:nth-child(2) .home-preview-image{aspect-ratio:4 / 3;object-fit:cover;}
-.home-preview-wrap:nth-child(3) .home-preview-image{aspect-ratio:16 / 9;object-fit:cover;}
+.home-preview-1{aspect-ratio:3 / 2;object-fit:cover;}
+.home-preview-2{aspect-ratio:4 / 3;object-fit:cover;}
+.home-preview-3{aspect-ratio:16 / 9;object-fit:cover;}
 .home-studio-image{aspect-ratio:4 / 3;object-fit:cover;}
 .home-contact-image{aspect-ratio:3 / 2;object-fit:cover;}
 

@@ -91,3 +91,28 @@ if (bookingForm) {
 
 const yearEl = document.getElementById("year");
 if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+
+function initManagedImageFallbacks() {
+  const managedImages = document.querySelectorAll('.managed-image');
+  managedImages.forEach((img) => {
+    const frame = img.closest('.image-frame');
+    if (!frame) return;
+
+    function setLoaded() {
+      frame.classList.add('image-loaded');
+    }
+
+    function setPlaceholder() {
+      frame.classList.remove('image-loaded');
+    }
+
+    img.addEventListener('load', setLoaded);
+    img.addEventListener('error', setPlaceholder);
+
+    if (img.complete && img.naturalWidth > 0) setLoaded();
+    else if (img.complete) setPlaceholder();
+  });
+}
+
+initManagedImageFallbacks();
