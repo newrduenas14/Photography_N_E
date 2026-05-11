@@ -7,94 +7,265 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
   <style>
-    .about-section,
-    .location-section {
-      padding: 3rem 0;
+    .about-page {
+      padding: 2.25rem 0 4.5rem;
     }
 
-    .about-title-row,
-    .about-bio,
-    .location-content {
+    .about-page .about-section,
+    .about-page .location-section {
+      background: #fff;
+    }
+
+    .about-page .about-label,
+    .about-page .location-label {
+      margin: 0 0 1rem;
+      font-size: 0.875rem;
+      color: #111;
+    }
+
+    .about-page .about-title-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: end;
+      margin-bottom: 2.5rem;
+    }
+
+    .about-page .about-title-row .section-title {
+      margin: 0;
+      line-height: 1.05;
+    }
+
+    .about-page .about-intro,
+    .about-page .location-intro {
+      margin: 0;
+      font-size: 1.0625rem;
+      line-height: 1.75;
+      color: #333;
+      max-width: 34rem;
+    }
+
+    .about-page .about-photo-row {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 1.5rem;
-      align-items: start;
+      margin-bottom: 3.25rem;
     }
 
-    .about-photo-row,
-    .about-vision {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 1.5rem;
-      margin-top: 2rem;
+    .about-page .about-person h3 {
+      margin: 0 0 0.35rem;
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: #111;
     }
 
-    .about-vision {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+    .about-page .about-person p {
+      margin: 0;
+      color: #4a4a4a;
     }
 
-    .about-photo-card h3,
-    .about-photo-card p,
-    .about-vision h3,
-    .location-details h3 {
-      margin-top: 0.75rem;
-      margin-bottom: 0.25rem;
-    }
-
-    .about-photo-card p,
-    .about-vision p,
-    .location-details p,
-    .location-intro,
-    .about-intro {
-      margin-top: 0;
-    }
-
-    .about-photo-placeholder,
-    .map-box {
+    .about-page .about-photo {
       width: 100%;
-      min-height: 280px;
-      border: 1px solid #d9d9d9;
-      background: #f7f7f7;
+      min-height: 31rem;
+      border: 1px solid #e4e4e4;
+      background: #f2f2f2;
+      color: #6b6b6b;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
+      margin-bottom: 0.85rem;
+      overflow: hidden;
       padding: 1rem;
-      color: #333;
     }
 
-    .about-photo-placeholder img {
+    .about-page .about-photo img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      display: block;
     }
 
-    .location-details {
+    .about-page .about-bio {
       display: grid;
-      gap: 1rem;
+      grid-template-columns: 0.72fr 1.28fr;
+      gap: 3.25rem;
+      border-top: 1px solid #ececec;
+      padding-top: 2.75rem;
+      margin-bottom: 3rem;
     }
 
-    .location-action {
-      margin-top: 0.5rem;
+    .about-page .about-bio h2 {
+      margin: 0;
+      font-family: "Playfair Display", serif;
+      font-size: clamp(1.85rem, 4vw, 2.8rem);
+      font-weight: 500;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
     }
 
-    @media (max-width: 768px) {
-      .about-title-row,
-      .about-photo-row,
-      .about-bio,
-      .about-vision,
-      .location-content {
+    .about-page .about-bio-content p {
+      margin: 0 0 1.1rem;
+      line-height: 1.8;
+      color: #222;
+    }
+
+    .about-page .about-bio-content p:last-child {
+      margin-bottom: 0;
+    }
+
+    .about-page .about-vision {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.5rem;
+      border-top: 1px solid #ececec;
+      padding-top: 2.25rem;
+      margin-bottom: 4.5rem;
+    }
+
+    .about-page .about-vision article {
+      padding-right: 0.75rem;
+    }
+
+    .about-page .about-vision h3 {
+      margin: 0 0 0.55rem;
+      font-size: 1.15rem;
+      font-weight: 500;
+      color: #111;
+    }
+
+    .about-page .about-vision p {
+      margin: 0;
+      color: #444;
+      line-height: 1.7;
+    }
+
+    .about-page .location-section {
+      border-top: 1px solid #ececec;
+      padding-top: 3rem;
+    }
+
+    .about-page .location-header {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 3rem;
+      align-items: end;
+      margin-bottom: 2rem;
+    }
+
+    .about-page .location-content {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 1.75rem;
+    }
+
+    .about-page .location-info {
+      border: 1px solid #e4e4e4;
+      padding: 2rem;
+      min-height: 24rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .about-page .location-info-block {
+      margin-bottom: 1.3rem;
+    }
+
+    .about-page .location-info-block:last-child {
+      margin-bottom: 0;
+    }
+
+    .about-page .location-info-block h3 {
+      margin: 0 0 0.45rem;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #111;
+    }
+
+    .about-page .location-info-block p {
+      margin: 0;
+      color: #222;
+      line-height: 1.65;
+    }
+
+    .about-page .map-button {
+      display: inline-block;
+      width: fit-content;
+      text-decoration: none;
+      color: #111;
+      border: 1px solid #111;
+      padding: 0.75rem 1rem;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .about-page .map-button:hover {
+      background: #111;
+      color: #fff;
+    }
+
+    .about-page .map-box {
+      min-height: 24rem;
+      border: 1px solid #e4e4e4;
+      background: #f2f2f2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #6b6b6b;
+      padding: 1.5rem;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 800px) {
+      .about-page {
+        padding: 1.75rem 0 3.25rem;
+      }
+
+      .about-page .about-title-row,
+      .about-page .about-photo-row,
+      .about-page .about-bio,
+      .about-page .about-vision,
+      .about-page .location-header,
+      .about-page .location-content {
         grid-template-columns: 1fr;
       }
 
-      .about-section,
-      .location-section {
-        padding: 2.25rem 0;
+      .about-page .about-title-row {
+        gap: 1.1rem;
+        margin-bottom: 2rem;
       }
 
-      .about-photo-placeholder,
-      .map-box {
-        min-height: 220px;
+      .about-page .about-photo {
+        min-height: 24.5rem;
+      }
+
+      .about-page .about-bio {
+        gap: 1.35rem;
+        padding-top: 2rem;
+        margin-bottom: 2.5rem;
+      }
+
+      .about-page .about-vision {
+        gap: 1.75rem;
+        margin-bottom: 3rem;
+      }
+
+      .about-page .location-section {
+        padding-top: 2.35rem;
+      }
+
+      .about-page .location-header {
+        gap: 1rem;
+      }
+
+      .about-page .location-info {
+        min-height: auto;
+        padding: 1.5rem;
+      }
+
+      .about-page .map-box {
+        min-height: 21rem;
       }
     }
   </style>
@@ -113,25 +284,25 @@
     </nav>
   </header>
 
-  <main class="section">
+  <main class="section about-page">
     <div class="container">
       <section class="about-section" aria-labelledby="about-heading">
+        <p class="about-label">About</p>
+
         <div class="about-title-row">
-          <div>
-            <p class="eyebrow">About</p>
-            <h1 id="about-heading" class="section-title">Photography by Norma &amp; Eduardo</h1>
-          </div>
+          <h1 id="about-heading" class="section-title">Photography by Norma &amp; Eduardo</h1>
           <p class="about-intro">A clean, natural photography experience for portraits, families, milestones, studio sessions, and special moments.</p>
         </div>
 
         <div class="about-photo-row">
-          <article class="about-photo-card">
-            <div class="about-photo-placeholder" role="img" aria-label="Norma photo placeholder">Norma photo</div>
+          <article class="about-person">
+            <div class="about-photo" role="img" aria-label="Norma photo placeholder">Norma photo</div>
             <h3>Norma</h3>
             <p>Photographer / Creative direction</p>
           </article>
-          <article class="about-photo-card">
-            <div class="about-photo-placeholder" role="img" aria-label="Eduardo photo placeholder">Eduardo photo</div>
+
+          <article class="about-person">
+            <div class="about-photo" role="img" aria-label="Eduardo photo placeholder">Eduardo photo</div>
             <h3>Eduardo</h3>
             <p>Photographer / Lighting &amp; composition</p>
           </article>
@@ -139,14 +310,14 @@
 
         <div class="about-bio">
           <h2>A shared vision behind every session.</h2>
-          <div>
+          <div class="about-bio-content">
             <p>Norma and Eduardo work together as one photography team, combining creativity, direction, lighting, and attention to detail to create images that feel personal, natural, and timeless.</p>
             <p>Their sessions are designed to make clients feel comfortable from the beginning. Whether it is a studio portrait, a family session, a graduation milestone, or a special celebration, their goal is to guide each person naturally so the final photos feel honest and meaningful.</p>
             <p>As a team, they focus on capturing more than a pose. They look for the small details, real expressions, and quiet moments that make each session unique.</p>
           </div>
         </div>
 
-        <div class="about-vision" aria-label="Studio values">
+        <div class="about-vision" aria-label="Vision points">
           <article>
             <h3>01 Comfort</h3>
             <p>A session should feel relaxed, guided, and easy for every client.</p>
@@ -163,31 +334,36 @@
       </section>
 
       <section class="location-section" aria-labelledby="location-heading">
-        <p class="eyebrow">Location</p>
-        <h2 id="location-heading" class="section-title">Visit the studio.</h2>
-        <p class="location-intro">Sessions can take place at the studio or on location, depending on availability, distance, and the type of session selected.</p>
+        <p class="location-label">Location</p>
+
+        <div class="location-header">
+          <h2 id="location-heading" class="section-title">Visit the studio.</h2>
+          <p class="location-intro">Sessions can take place at the studio or on location, depending on availability, distance, and the type of session selected.</p>
+        </div>
 
         <div class="location-content">
-          <div class="location-details">
-            <article>
-              <h3>Studio address</h3>
-              <p>Add studio address here<br>City, State ZIP</p>
-            </article>
-            <article>
-              <h3>Service area</h3>
-              <p>Studio sessions are available by appointment. Location sessions may include an extra travel fee depending on distance.</p>
-            </article>
-            <article>
-              <h3>Before your session</h3>
-              <p>After booking, clients receive confirmation with arrival details, parking information, and any preparation notes.</p>
-            </article>
-            <div class="location-action">
-              <a href="#" class="btn">Open in Google Maps</a>
+          <div class="location-info">
+            <div>
+              <div class="location-info-block">
+                <h3>Studio address</h3>
+                <p>Add studio address here<br>City, State ZIP</p>
+              </div>
+              <div class="location-info-block">
+                <h3>Service area</h3>
+                <p>Studio sessions are available by appointment. Location sessions may include an extra travel fee depending on distance.</p>
+              </div>
+              <div class="location-info-block">
+                <h3>Before your session</h3>
+                <p>After booking, clients receive confirmation with arrival details, parking information, and any preparation notes.</p>
+              </div>
             </div>
+
+            <a class="map-button" href="#">Open in Google Maps</a>
           </div>
 
           <div class="map-box" role="region" aria-label="Google Maps placeholder">
-            <p>Google Maps embed goes here<br>Replace this box with the studio map iframe</p>
+            Google Maps embed goes here<br>
+            Replace this box with the studio map iframe
           </div>
         </div>
       </section>
