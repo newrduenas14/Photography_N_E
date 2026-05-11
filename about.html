@@ -1,1 +1,206 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>About | Norma & Eduardo</title><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css" /></head><body><header class="site-header"><a href="index.html" class="brand">Photography by Norma & Eduardo</a><nav class="main-nav"><a href="index.html">Home</a><a href="packages.html">Packages</a><a href="gallery.html">Gallery</a><a class="active" href="about.html">About</a><a href="booking.html">Book a Session</a><a href="contact.html">Contact</a><a href="admin.html">Admin</a></nav></header><main class="section"><div class="container split"><article class="panel reveal"><p class="eyebrow">Our Approach</p><h1 class="section-title">Editorial style with a personal touch.</h1><p>We focus on intentional composition, natural emotion, and elegant styling. From preparation to delivery, every session is crafted to feel calm, organized, and high-end.</p><ul><li>Pre-session planning call</li><li>Guided posing and direction</li><li>Retouched gallery delivery</li></ul></article><article class="hero-card reveal"><img src="images/about_photo.png" alt="About photo"></article></div></main><footer class="site-footer"><div class="container footer-wrap"><p>© <span id="year"></span> Photography by Norma &amp; Eduardo</p><a href="contact.html" class="btn btn-sm">Contact Us</a></div></footer><script src="script.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About | Norma & Eduardo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .about-section,
+    .location-section {
+      padding: 3rem 0;
+    }
+
+    .about-title-row,
+    .about-bio,
+    .location-content {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    .about-photo-row,
+    .about-vision {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .about-vision {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .about-photo-card h3,
+    .about-photo-card p,
+    .about-vision h3,
+    .location-details h3 {
+      margin-top: 0.75rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .about-photo-card p,
+    .about-vision p,
+    .location-details p,
+    .location-intro,
+    .about-intro {
+      margin-top: 0;
+    }
+
+    .about-photo-placeholder,
+    .map-box {
+      width: 100%;
+      min-height: 280px;
+      border: 1px solid #d9d9d9;
+      background: #f7f7f7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 1rem;
+      color: #333;
+    }
+
+    .about-photo-placeholder img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .location-details {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .location-action {
+      margin-top: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .about-title-row,
+      .about-photo-row,
+      .about-bio,
+      .about-vision,
+      .location-content {
+        grid-template-columns: 1fr;
+      }
+
+      .about-section,
+      .location-section {
+        padding: 2.25rem 0;
+      }
+
+      .about-photo-placeholder,
+      .map-box {
+        min-height: 220px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a href="index.html" class="brand">Photography by Norma & Eduardo</a>
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="packages.html">Packages</a>
+      <a href="gallery.html">Gallery</a>
+      <a class="active" href="about.html">About</a>
+      <a href="booking.html">Book a Session</a>
+      <a href="contact.html">Contact</a>
+      <a href="admin.html">Admin</a>
+    </nav>
+  </header>
+
+  <main class="section">
+    <div class="container">
+      <section class="about-section" aria-labelledby="about-heading">
+        <div class="about-title-row">
+          <div>
+            <p class="eyebrow">About</p>
+            <h1 id="about-heading" class="section-title">Photography by Norma &amp; Eduardo</h1>
+          </div>
+          <p class="about-intro">A clean, natural photography experience for portraits, families, milestones, studio sessions, and special moments.</p>
+        </div>
+
+        <div class="about-photo-row">
+          <article class="about-photo-card">
+            <div class="about-photo-placeholder" role="img" aria-label="Norma photo placeholder">Norma photo</div>
+            <h3>Norma</h3>
+            <p>Photographer / Creative direction</p>
+          </article>
+          <article class="about-photo-card">
+            <div class="about-photo-placeholder" role="img" aria-label="Eduardo photo placeholder">Eduardo photo</div>
+            <h3>Eduardo</h3>
+            <p>Photographer / Lighting &amp; composition</p>
+          </article>
+        </div>
+
+        <div class="about-bio">
+          <h2>A shared vision behind every session.</h2>
+          <div>
+            <p>Norma and Eduardo work together as one photography team, combining creativity, direction, lighting, and attention to detail to create images that feel personal, natural, and timeless.</p>
+            <p>Their sessions are designed to make clients feel comfortable from the beginning. Whether it is a studio portrait, a family session, a graduation milestone, or a special celebration, their goal is to guide each person naturally so the final photos feel honest and meaningful.</p>
+            <p>As a team, they focus on capturing more than a pose. They look for the small details, real expressions, and quiet moments that make each session unique.</p>
+          </div>
+        </div>
+
+        <div class="about-vision" aria-label="Studio values">
+          <article>
+            <h3>01 Comfort</h3>
+            <p>A session should feel relaxed, guided, and easy for every client.</p>
+          </article>
+          <article>
+            <h3>02 Natural style</h3>
+            <p>The focus is on clean images, soft direction, and real expressions.</p>
+          </article>
+          <article>
+            <h3>03 Meaningful memories</h3>
+            <p>Every gallery should feel beautiful now and valuable years later.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="location-section" aria-labelledby="location-heading">
+        <p class="eyebrow">Location</p>
+        <h2 id="location-heading" class="section-title">Visit the studio.</h2>
+        <p class="location-intro">Sessions can take place at the studio or on location, depending on availability, distance, and the type of session selected.</p>
+
+        <div class="location-content">
+          <div class="location-details">
+            <article>
+              <h3>Studio address</h3>
+              <p>Add studio address here<br>City, State ZIP</p>
+            </article>
+            <article>
+              <h3>Service area</h3>
+              <p>Studio sessions are available by appointment. Location sessions may include an extra travel fee depending on distance.</p>
+            </article>
+            <article>
+              <h3>Before your session</h3>
+              <p>After booking, clients receive confirmation with arrival details, parking information, and any preparation notes.</p>
+            </article>
+            <div class="location-action">
+              <a href="#" class="btn">Open in Google Maps</a>
+            </div>
+          </div>
+
+          <div class="map-box" role="region" aria-label="Google Maps placeholder">
+            <p>Google Maps embed goes here<br>Replace this box with the studio map iframe</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-wrap">
+      <p>© <span id="year"></span> Photography by Norma &amp; Eduardo</p>
+      <a href="contact.html" class="btn btn-sm">Contact Us</a>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
