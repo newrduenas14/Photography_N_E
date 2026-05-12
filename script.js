@@ -20,7 +20,7 @@ const FALLBACK_DATA = {
   ],
   areaFees: [
     ["MISSION",0,false],["PALMVIEW",0,false],["MCALLEN",20,false],["LA JOYA",30,false],["EDINGBURG",50,false],["PHARR",50,false],["ALAMO",50,false],["SAN JUAN",50,false],["HIDALGO",50,false],["WESLACO",70,false],["DONNA",70,false],["RIO GRANDE CITY",70,false],["MERCEDES",90,true],["ROMA",90,true],["BROWNSVILLE",110,true],["HARLINGEN",110,true],["SAN BENITO",110,true],["LOS FRESNOS",110,true],["PORT ISABEL",110,true],["SOUTH PADRE ISLAND",110,true],["LAGUNA VISTA",110,true],["RAYMONDVILLE",110,true],["LYFORD",110,true],["SAN PERLITA",110,true]
-  ].map(([code, fee, manualReview]) => ({ code, fee, manualReview, active: true })),
+  ].map(([areaCode, extraFee, requiresManualReview]) => ({ areaCode, areaName: areaCode, extraFee, requiresManualReview: Boolean(requiresManualReview), active: true })),
   blockedDates: ["2026-05-17", "2026-05-24", "2026-06-07"],
 };
 
@@ -66,7 +66,7 @@ async function loadAreaFees() {
 function populateAreaDropdown(areaFees) {
   const areaCode = document.getElementById("areaCode");
   if (!areaCode) return;
-  areaCode.innerHTML = '<option value="">Select area/city</option>' + areaFees.map((area) => `<option value="${area.code}">${area.code} (+${formatCurrency(area.fee)})</option>`).join("");
+  areaCode.innerHTML = '<option value="">Select area/city</option>' + areaFees.map((area) => `<option value="${area.areaCode}">${area.areaName} (+${formatCurrency(area.extraFee)})</option>`).join("");
 }
 
 async function loadAvailableDates() {
@@ -85,11 +85,13 @@ async function loadAvailableTimes(date, packageId, sessionType, areaCode) {
   if (!pkg || !date || !sessionType) return [];
   const d = new Date(`${date}T00:00:00`);
   if (d.getDay() === 0 || state.blockedDates.has(date)) return [];
-  const buffer = sessionType === "Location" ? BUSINESS_CONFIG.locationBufferMinutes : BUSINESS_CONFIG.studioBufferMinutes;
-  const blockMinutes = pkg.durationMinutes + buffer;
+  const bufferMinutes = sessionType === "Location" ? BUSINESS_CONFIG.locationBufferMinutes : BUSINESS_CONFIG.studioBufferMinutes;
   const times = [];
   for (let t = BUSINESS_CONFIG.openingMinutes; t <= BUSINESS_CONFIG.closingMinutes; t += BUSINESS_CONFIG.slotIntervalMinutes) {
-    if ((t + blockMinutes) <= BUSINESS_CONFIG.closingMinutes) times.push(`${String(Math.floor(t/60)).padStart(2,"0")}:${String(t%60).padStart(2,"0")}`);
+    const sessionEnd = t + pkg.durationMinutes;
+    const bufferEnd = sessionEnd + bufferMinutes; // For backend blocking use later, not closing-time validation
+    void bufferEnd;
+    if (sessionEnd <= BUSINESS_CONFIG.closingMinutes) times.push(`${String(Math.floor(t/60)).padStart(2,"0")}:${String(t%60).padStart(2,"0")}`);
   }
   return times;
 }
@@ -104,12 +106,12 @@ async function calculatePricePreview(packageId, sessionType, areaCode, promoCode
   // Future Apps Script call: POST calculatePrice
   const pkg = state.packages.find((p) => p.id === packageId);
   if (!pkg) return { total: 0, deposit: 0, balanceDue: 0, manualReview: false };
-  const area = state.areaFees.find((a) => a.code === areaCode);
-  const locationFee = sessionType === "Location" ? (area?.fee || 0) : 0;
+  const area = state.areaFees.find((a) => a.areaCode === areaCode);
+  const locationFee = sessionType === "Location" ? (area?.extraFee || 0) : 0;
   const promoDiscount = promoCode && promoCode.trim().toUpperCase() === "DEMO10" ? 10 : 0;
   const total = Math.max(0, pkg.basePrice + locationFee - promoDiscount);
   const deposit = total * BUSINESS_CONFIG.depositRate;
-  return { total, deposit, balanceDue: total - deposit, manualReview: Boolean(area?.manualReview && sessionType === "Location") };
+  return { total, deposit, balanceDue: total - deposit, manualReview: Boolean(sessionType === "Location" && area?.requiresManualReview === true) };
 }
 
 function updateLocationFieldsVisibility() {
@@ -118,12 +120,20 @@ function updateLocationFieldsVisibility() {
   const areaField = document.getElementById("areaField");
   const address = document.getElementById("locationAddress");
   const areaCode = document.getElementById("areaCode");
+  const manualReviewMessage = document.getElementById("manualReviewMessage");
   if (!sessionType) return;
   const show = sessionType.value === "Location";
-  addressField.classList.toggle("hidden", !show);
-  areaField.classList.toggle("hidden", !show);
-  if (address) address.required = show;
-  if (areaCode) areaCode.required = show;
+  if (addressField) addressField.style.display = show ? "block" : "none";
+  if (areaField) areaField.style.display = show ? "block" : "none";
+  if (address) {
+    address.required = show;
+    if (!show) address.value = "";
+  }
+  if (areaCode) {
+    areaCode.required = show;
+    if (!show) areaCode.value = "";
+  }
+  if (manualReviewMessage && !show) manualReviewMessage.style.display = "none";
 }
 
 function validateBookingForm() {
@@ -151,7 +161,10 @@ async function refreshTimesAndPrice() {
   document.getElementById("totalAmount").textContent = formatCurrency(summary.total);
   document.getElementById("depositAmount").textContent = formatCurrency(summary.deposit);
   document.getElementById("balanceDue").textContent = paymentOption === "full" ? formatCurrency(0) : formatCurrency(summary.balanceDue);
-  document.getElementById("manualReviewMessage").classList.toggle("hidden", !summary.manualReview);
+  const manualReviewMessage = document.getElementById("manualReviewMessage");
+  if (manualReviewMessage) {
+    manualReviewMessage.style.display = summary.manualReview ? "block" : "none";
+  }
 }
 
 (async function init() {
