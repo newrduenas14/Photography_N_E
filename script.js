@@ -47,7 +47,7 @@ async function loadPackages() {
 function renderPackages(packages) {
   const grid = document.getElementById("packagesGrid");
   if (!grid) return;
-  grid.innerHTML = packages.map((pkg) => `<article class="card"><h3>${pkg.name}</h3><p>${pkg.description || ""}</p><ul><li>${pkg.durationMinutes} min</li><li>${pkg.editedPhotos} edited photos</li><li>${formatCurrency(pkg.basePrice)}</li></ul><a class="button-link" href="booking.html">Book this package</a></article>`).join("");
+  grid.innerHTML = packages.map((pkg) => `<article class="card"><h3>${pkg.name}</h3><div class="package-summary"><span><strong>Price:</strong> ${formatCurrency(pkg.basePrice)}</span><span><strong>Duration:</strong> ${pkg.durationMinutes} min</span><span><strong>Edited:</strong> ${pkg.editedPhotos}</span></div><button class="text-link package-toggle" type="button" data-package="${pkg.id}">View details</button><p class="package-details" id="details-${pkg.id}">${pkg.description || ""}</p><div class="card-actions"><a href="packages.html">View Package</a><a href="booking.html">Book</a></div></article>`).join("");
 }
 
 function populatePackageDropdown(packages) {
@@ -285,3 +285,8 @@ function initAdminDemo() {
   content.addEventListener("submit",(e)=>{if(e.target.id==="addReservationForm"){e.preventDefault();toast("Demo reservation saved locally");}});
 }
 initAdminDemo();
+
+
+function initMobileNav(){const btn=document.querySelector(".mobile-menu-toggle");const nav=document.querySelector(".mobile-nav");if(!btn||!nav)return;btn.addEventListener("click",()=>{const open=nav.classList.toggle("open");btn.setAttribute("aria-expanded",String(open));nav.setAttribute("aria-hidden",String(!open));btn.textContent=open?"×":"☰";});nav.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>{nav.classList.remove("open");btn.setAttribute("aria-expanded","false");nav.setAttribute("aria-hidden","true");btn.textContent="☰";}));}
+
+initMobileNav();
