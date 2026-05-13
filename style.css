@@ -438,6 +438,8 @@ body:not(.admin-page) .site-footer .footer-brand{max-width:420px}
 body:not(.admin-page) .site-footer .footer-logo{max-width:210px;max-height:82px;object-fit:contain;margin-bottom:.85rem}
 body:not(.admin-page) .site-footer .footer-title{font:500 1.2rem "Playfair Display",serif;margin:0 0 .7rem;color:#f6eee2}
 body:not(.admin-page) .site-footer .footer-description{margin:0;color:#d6c8b5;line-height:1.6}
+body:not(.admin-page) .site-footer .footer-column{min-width:0}
+body:not(.admin-page) .site-footer .footer-logo-fallback{display:block}
 body:not(.admin-page) .site-footer .footer-column h4{font:500 1.03rem "Playfair Display",serif;margin:0 0 .75rem;color:#f3e4cd}
 body:not(.admin-page) .site-footer .footer-links{list-style:none;margin:0;padding:0;display:grid;gap:.44rem}
 body:not(.admin-page) .site-footer .footer-links li{margin:0;padding:0}
