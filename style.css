@@ -430,3 +430,43 @@ button{
 .badge-soft{background:#f5efe7;border-color:#dac4a4}
 .muted-text{color:#6a6763}
 .admin-table th,.admin-table td{padding:.72rem .6rem;vertical-align:top}
+
+/* Public footer */
+body:not(.admin-page) .site-footer{background:#121110;color:#efe7dc;border-top:1px solid rgba(224,196,152,.28);margin-top:2.6rem}
+body:not(.admin-page) .site-footer .footer-inner{display:grid;grid-template-columns:2fr repeat(4,minmax(150px,1fr));gap:2rem;padding:3rem 8vw 2.2rem}
+body:not(.admin-page) .site-footer .footer-brand{max-width:420px}
+body:not(.admin-page) .site-footer .footer-logo{max-width:210px;max-height:82px;object-fit:contain;margin-bottom:.85rem}
+body:not(.admin-page) .site-footer .footer-title{font:500 1.2rem "Playfair Display",serif;margin:0 0 .7rem;color:#f6eee2}
+body:not(.admin-page) .site-footer .footer-description{margin:0;color:#d6c8b5;line-height:1.6}
+body:not(.admin-page) .site-footer .footer-column h4{font:500 1.03rem "Playfair Display",serif;margin:0 0 .75rem;color:#f3e4cd}
+body:not(.admin-page) .site-footer .footer-links{list-style:none;margin:0;padding:0;display:grid;gap:.44rem}
+body:not(.admin-page) .site-footer .footer-links li{margin:0;padding:0}
+body:not(.admin-page) .site-footer .footer-links a{color:#efe7db;text-decoration:none;border-bottom:1px solid transparent;transition:color .2s,border-color .2s}
+body:not(.admin-page) .site-footer .footer-links a:hover{color:#e2c391;border-color:#e2c391}
+body:not(.admin-page) .site-footer .footer-cta{display:flex;flex-direction:column;align-items:flex-start}
+body:not(.admin-page) .site-footer .footer-book-btn{display:inline-block;margin:.35rem 0 1rem;padding:.58rem 1rem;border:1px solid #d5b888;border-radius:999px;color:#f5ebde;text-decoration:none}
+body:not(.admin-page) .site-footer .footer-book-btn:hover{background:#d5b888;color:#1a1816}
+body:not(.admin-page) .site-footer .footer-socials{grid-template-columns:repeat(2,minmax(0,1fr));gap:.38rem .8rem}
+body:not(.admin-page) .site-footer .footer-bottom{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;padding:1rem 8vw 1.25rem;border-top:1px solid rgba(224,196,152,.2);font-size:.9rem;color:#d0c1ab}
+body:not(.admin-page) .site-footer .anvera-credit a{color:#ecd3a9;text-decoration:none;border-bottom:1px solid transparent}
+body:not(.admin-page) .site-footer .anvera-credit a:hover{border-color:#ecd3a9}
+@media (max-width:1100px){body:not(.admin-page) .site-footer .footer-inner{grid-template-columns:1fr 1fr;padding-left:6vw;padding-right:6vw}}
+@media (max-width:640px){body:not(.admin-page) .site-footer .footer-inner{grid-template-columns:1fr;gap:1.4rem}body:not(.admin-page) .site-footer .footer-bottom{padding-left:6vw;padding-right:6vw}}
+
+/* Admin polish */
+.admin-page .btn{background:#111;color:#fff;border:1px solid #111}
+.admin-page .btn:hover{background:#252525}
+.admin-page .panel{padding:1.1rem 1.15rem}
+.metric-grid{gap:1rem;margin-bottom:1rem}
+.metric{padding:1rem 1rem 1.1rem}
+.metric h4{font-size:.79rem;letter-spacing:.04em;text-transform:uppercase}
+.metric p{font-size:1.08rem;font-weight:600;color:#1f1d1b}
+.metric p.metric-note{font-size:.86rem;font-weight:400;color:#6b6760;line-height:1.4;margin-top:.35rem}
+.badge{background:#f7f2ea;color:#272523;border-color:#cfc4b6}
+.admin-table tbody tr:hover{background:#faf7f2}
+.admin-table th{background:#f6f1ea;color:#2e2b28;font-weight:600}
+.session-item{padding:.7rem 0;gap:.35rem}
+.cal-day{color:#191817}
+.day-meta{line-height:1.2}
+@media (max-width:1100px){.footer-inner{grid-template-columns:1fr 1fr;padding-left:6vw;padding-right:6vw}}
+@media (max-width:640px){.footer-inner{grid-template-columns:1fr}.footer-bottom{padding-left:6vw;padding-right:6vw}}

@@ -240,7 +240,34 @@ function initAdminDemo() {
   function getReservation(id){return adminData.reservations.find(r=>r.id===id);}  
   function openDetails(r){modal(`<h3>Reservation Details</h3><div class="modal-grid"><section><h4>Client</h4><p>ID: ${r.id}<br>${r.client}<br>${r.phone}<br>${r.email}<br>${r.occasion}</p></section><section><h4>Session</h4><p>${r.packageId} · ${r.packageName}<br>Base ${fmtMoney(r.basePrice)} · ${r.duration} min · ${r.editedPhotos} photos<br>${r.sessionType}<br>${r.date} ${r.start}-${r.end} (buffer ${r.bufferEnd})</p></section><section><h4>Location</h4><p>${r.area}<br>${r.address}<br>Extra fee: ${fmtMoney(r.extraFee)}</p></section><section><h4>Payment</h4><p>Option: ${r.paymentOption}<br>Deposit: ${fmtMoney(r.depositRequired)}<br>Paid: ${fmtMoney(r.amountPaid)}<br>Balance: ${fmtMoney(r.balanceDue)}</p></section><section><h4>Status</h4><p>${r.reservationStatus}<br>${r.paymentStatus}</p></section><section><h4>Notes</h4><p>${r.notes}<br><strong>Internal:</strong> ${r.internalNotes}</p></section></div>`);}
 
-  function renderOverview(){const review=adminData.reservations.filter(r=>r.reservationStatus==="Needs Review"); content.innerHTML=`<div class="metric-grid"><div class="metric"><h4>This Month Revenue</h4><p>${fmtMoney(adminData.reservations.reduce((a,b)=>a+b.amountPaid,0))}</p></div><div class="metric"><h4>Sessions Requiring Review</h4><p>${review.length}</p></div><div class="metric"><h4>Pending Payments</h4><p>${adminData.reservations.filter(r=>r.paymentStatus==="Pending").length}</p></div><div class="metric"><h4>Average Booking Value</h4><p>${fmtMoney(adminData.reservations.reduce((a,b)=>a+b.total,0)/adminData.reservations.length)}</p></div></div><div class="panel" style="margin-top:1rem"><h3>Needs Review</h3>${review.map(r=>`<div class="session-item"><strong>${r.client}</strong><span>${r.date} · ${r.start} · ${r.packageName}</span><div><button class="btn btn-sm review-details" data-id="${r.id}">Details</button> <button class="btn btn-sm review-accept" data-id="${r.id}">Accept</button> <button class="btn btn-sm review-info" data-id="${r.id}">Request Info</button> <button class="btn btn-sm review-decline" data-id="${r.id}">Decline</button></div></div>`).join("")||"<p>No items.</p>"}</div>`;}
+  function renderOverview(){
+    const review=adminData.reservations.filter(r=>r.reservationStatus==="Needs Review");
+    const pending=adminData.reservations.filter(r=>r.paymentStatus==="Pending");
+    const canceled=adminData.reservations.filter(r=>r.reservationStatus==="Declined/Canceled");
+    const upcoming=adminData.reservations.filter(r=>new Date(r.date+"T00:00:00")>=new Date(new Date().toDateString()));
+    const monthNow=new Date();
+    const monthRevenue=adminData.reservations.filter(r=>{const d=new Date(r.date+"T00:00:00"); return d.getMonth()===monthNow.getMonth()&&d.getFullYear()===monthNow.getFullYear();}).reduce((a,b)=>a+b.amountPaid,0);
+    const deposits=adminData.reservations.reduce((a,b)=>a+Math.min(b.amountPaid,b.depositRequired||0),0);
+    const balanceDue=adminData.reservations.reduce((a,b)=>a+b.balanceDue,0);
+    const avgValue=adminData.reservations.length?adminData.reservations.reduce((a,b)=>a+b.total,0)/adminData.reservations.length:0;
+    const packageCounts=adminData.reservations.reduce((a,r)=>((a[r.packageName]=(a[r.packageName]||0)+1),a),{});
+    const topPackage=Object.entries(packageCounts).sort((a,b)=>b[1]-a[1])[0]?.[0]||"No data yet";
+    const studioCount=adminData.reservations.filter(r=>r.sessionType==="Studio").length;
+    const locationCount=adminData.reservations.filter(r=>r.sessionType==="Location").length;
+    const metrics=[
+      ["This Month Revenue", fmtMoney(monthRevenue),"Pending backend connection for live totals."],
+      ["Deposits Collected", fmtMoney(deposits),"Demo data only until backend sync."],
+      ["Balance Due", fmtMoney(balanceDue),"Outstanding balances across reservations."],
+      ["Upcoming Sessions", String(upcoming.length),"Scheduled from today onward."],
+      ["Pending Payments", String(pending.length),"Requires follow-up."],
+      ["Sessions Requiring Review", String(review.length),"Needs manual confirmation."],
+      ["Top Package", topPackage, adminData.reservations.length?"Most booked in current dataset.":"No data yet"],
+      ["Studio vs Location", `${studioCount} / ${locationCount}`,"Studio count vs location count."],
+      ["Canceled Sessions", String(canceled.length),"Declined/Canceled reservations."],
+      ["Average Booking Value", fmtMoney(avgValue), adminData.reservations.length?"Average from demo reservations.":"No data yet"]
+    ];
+    content.innerHTML=`<div class="metric-grid">${metrics.map(m=>`<div class="metric"><h4>${m[0]}</h4><p>${m[1]||"No data yet"}</p><p class="metric-note">${m[2]||"Pending backend connection"}</p></div>`).join("")}</div><div class="panel" style="margin-top:1rem"><h3>Needs Review</h3>${review.map(r=>`<div class="session-item"><strong>${r.client}</strong><span>${r.phone} · ${r.date} · ${r.start}</span><span>${r.packageName} · ${r.area} · <span class="badge">${r.paymentStatus}</span> <span class="badge">${r.reservationStatus}</span></span><div><button class="btn btn-sm review-details" data-id="${r.id}" type="button">Details</button> <button class="btn btn-sm review-accept" data-id="${r.id}" type="button">Accept</button> <button class="btn btn-sm review-info" data-id="${r.id}" type="button">Request Info</button> <button class="btn btn-sm review-decline" data-id="${r.id}" type="button">Decline</button></div></div>`).join("")||"<p>No items.</p>"}</div>`;
+  }
 
   function calendarData(dateIso){const sessions=adminData.reservations.filter(r=>r.date===dateIso);const blocked=adminData.blocked.find(b=>b.date===dateIso);const revenue=sessions.reduce((a,b)=>a+b.amountPaid,0);const needsReview=sessions.some(s=>["Needs Review","Pending"].includes(s.reservationStatus)||s.paymentStatus==="Pending");return {sessions,blocked,revenue,needsReview};}
 
