@@ -47,8 +47,7 @@ async function loadPackages() {
 function renderPackages(packages) {
   const grid = document.getElementById("packagesGrid");
   if (!grid) return;
-  grid.innerHTML = packages.map((pkg) => `<article class="card"><h3>${pkg.name}</h3><div class="package-summary"><span><strong>Price:</strong> ${formatCurrency(pkg.basePrice)}</span><span><strong>Duration:</strong> ${pkg.durationMinutes} min</span><span><strong>Edited:</strong> ${pkg.editedPhotos}</span></div><button class="text-link package-toggle" type="button" data-package="${pkg.id}">View details</button><p class="package-details" id="details-${pkg.id}">${pkg.description || ""}</p><div class="card-actions"><a href="packages.html">View Package</a><a href="booking.html">Book</a></div></article>`).join("");
-  initPackageDetailToggles();
+  grid.innerHTML = packages.map((pkg) => `<article class="card package-card" id="${pkg.id}-session"><h3>${pkg.name}</h3><p>${pkg.description || ""}</p><ul><li>${pkg.durationMinutes} min</li><li>${pkg.editedPhotos} edited photos</li><li>${formatCurrency(pkg.basePrice)}</li></ul><a class="text-link" href="packages.html#${pkg.id}-session">View package</a></article>`).join("");
 }
 
 function populatePackageDropdown(packages) {
