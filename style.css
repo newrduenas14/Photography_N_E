@@ -430,3 +430,35 @@ button{
 .badge-soft{background:#f5efe7;border-color:#dac4a4}
 .muted-text{color:#6a6763}
 .admin-table th,.admin-table td{padding:.72rem .6rem;vertical-align:top}
+
+/* Public footer */
+.public-site-footer{background:#11100f;color:#f3ece2;border-top:1px solid rgba(230,209,172,.35);margin-top:3rem}
+.footer-inner{display:grid;grid-template-columns:2fr repeat(4,1fr);gap:2rem;padding:3.1rem 8vw 2.2rem}
+.public-site-footer h4{font:500 1.05rem "Playfair Display",serif;margin-bottom:.7rem;color:#f6eee2}
+.public-site-footer ul{list-style:none;display:grid;gap:.45rem}
+.public-site-footer a{color:#efe7db;text-decoration:none;border-bottom:1px solid transparent;transition:color .2s,border-color .2s}
+.public-site-footer a:hover{color:#e3c799;border-color:#e3c799}
+.footer-logo{max-width:210px;max-height:80px;object-fit:contain;margin-bottom:.8rem}
+.footer-brand-fallback{font:500 1.2rem "Playfair Display",serif;margin-bottom:.8rem}
+.footer-description{color:#d9d0c3;max-width:36ch}
+.footer-cta{display:inline-block;margin:.35rem 0 1rem;padding:.6rem 1rem;border:1px solid #d6b98d;border-radius:999px}
+.footer-social{grid-template-columns:repeat(2,minmax(0,1fr));gap:.35rem .75rem}
+.footer-bottom{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;padding:1rem 8vw 1.2rem;border-top:1px solid rgba(230,209,172,.2);font-size:.9rem;color:#d3c6b5}
+
+/* Admin polish */
+.admin-page .btn{background:#111;color:#fff;border:1px solid #111}
+.admin-page .btn:hover{background:#252525}
+.admin-page .panel{padding:1.1rem 1.15rem}
+.metric-grid{gap:1rem;margin-bottom:1rem}
+.metric{padding:1rem 1rem 1.1rem}
+.metric h4{font-size:.79rem;letter-spacing:.04em;text-transform:uppercase}
+.metric p{font-size:1.08rem;font-weight:600;color:#1f1d1b}
+.metric p.metric-note{font-size:.86rem;font-weight:400;color:#6b6760;line-height:1.4;margin-top:.35rem}
+.badge{background:#f7f2ea;color:#272523;border-color:#cfc4b6}
+.admin-table tbody tr:hover{background:#faf7f2}
+.admin-table th{background:#f6f1ea;color:#2e2b28;font-weight:600}
+.session-item{padding:.7rem 0;gap:.35rem}
+.cal-day{color:#191817}
+.day-meta{line-height:1.2}
+@media (max-width:1100px){.footer-inner{grid-template-columns:1fr 1fr;padding-left:6vw;padding-right:6vw}}
+@media (max-width:640px){.footer-inner{grid-template-columns:1fr}.footer-bottom{padding-left:6vw;padding-right:6vw}}
