@@ -48,6 +48,7 @@ function renderPackages(packages) {
   const grid = document.getElementById("packagesGrid");
   if (!grid) return;
   grid.innerHTML = packages.map((pkg) => `<article class="card"><h3>${pkg.name}</h3><div class="package-summary"><span><strong>Price:</strong> ${formatCurrency(pkg.basePrice)}</span><span><strong>Duration:</strong> ${pkg.durationMinutes} min</span><span><strong>Edited:</strong> ${pkg.editedPhotos}</span></div><button class="text-link package-toggle" type="button" data-package="${pkg.id}">View details</button><p class="package-details" id="details-${pkg.id}">${pkg.description || ""}</p><div class="card-actions"><a href="packages.html">View Package</a><a href="booking.html">Book</a></div></article>`).join("");
+  initPackageDetailToggles();
 }
 
 function populatePackageDropdown(packages) {
@@ -287,6 +288,34 @@ function initAdminDemo() {
 initAdminDemo();
 
 
-function initMobileNav(){const btn=document.querySelector(".mobile-menu-toggle");const nav=document.querySelector(".mobile-nav");if(!btn||!nav)return;btn.addEventListener("click",()=>{const open=nav.classList.toggle("open");btn.setAttribute("aria-expanded",String(open));nav.setAttribute("aria-hidden",String(!open));btn.textContent=open?"×":"☰";});nav.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>{nav.classList.remove("open");btn.setAttribute("aria-expanded","false");nav.setAttribute("aria-hidden","true");btn.textContent="☰";}));}
+function initMobileNav(){
+  const btn=document.querySelector(".menu-toggle");
+  const nav=document.querySelector(".mobile-menu");
+  if(!btn||!nav)return;
+  btn.addEventListener("click",()=>{
+    const open=nav.classList.toggle("open");
+    btn.setAttribute("aria-expanded",String(open));
+    nav.setAttribute("aria-hidden",String(!open));
+    btn.textContent=open?"×":"☰";
+  });
+  nav.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>{
+    nav.classList.remove("open");
+    btn.setAttribute("aria-expanded","false");
+    nav.setAttribute("aria-hidden","true");
+    btn.textContent="☰";
+  }));
+}
+
+function initPackageDetailToggles(){
+  document.querySelectorAll('.package-toggle').forEach((btn)=>{
+    btn.addEventListener('click',()=>{
+      const details=document.getElementById(`details-${btn.dataset.package}`);
+      if(!details) return;
+      const open=details.classList.toggle('open');
+      btn.textContent=open?'Hide details':'View details';
+    });
+  });
+}
 
 initMobileNav();
+initPackageDetailToggles();

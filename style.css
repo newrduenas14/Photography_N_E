@@ -474,7 +474,7 @@ body:not(.admin-page) .site-footer .anvera-credit a:hover{border-color:#ecd3a9}
 @media (max-width:640px){.footer-inner{grid-template-columns:1fr}.footer-bottom{padding-left:6vw;padding-right:6vw}}
 
 
-.mobile-menu-toggle,.mobile-nav,.sticky-mobile-cta{display:none;}
+.menu-toggle,.mobile-menu,.sticky-mobile-cta{display:none;}
 .package-summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.35rem 1rem;margin:.8rem 0;color:#222;font-size:.98rem;}
 .package-details{display:none;margin:.7rem 0;color:#333;}
 .package-details.open{display:block;}
@@ -489,11 +489,11 @@ body:not(.admin-page) .site-footer .anvera-credit a:hover{border-color:#ecd3a9}
   body{padding-bottom:84px;}
   .site-header{padding:.8rem 1rem;background:#fff;}
   .main-nav{display:none;}
-  .mobile-menu-toggle{display:inline-flex;align-items:center;justify-content:center;width:42px;height:38px;border:1px solid #111;background:#fff;font-size:1.2rem;}
-  .mobile-nav{display:block;max-height:0;overflow:hidden;transition:max-height .25s ease;border-bottom:1px solid var(--line);background:#fff;}
-  .mobile-nav.open{max-height:360px;}
-  .mobile-nav a{display:block;padding:.75rem 1rem;border-bottom:1px solid #eee;text-decoration:none;color:#111;}
-  .mobile-nav a.admin-link{font-size:.9rem;color:#666;}
+  .menu-toggle{display:inline-flex;align-items:center;justify-content:center;width:42px;height:38px;border:1px solid #111;background:#fff;font-size:1.2rem;}
+  .mobile-menu{display:block;max-height:0;overflow:hidden;transition:max-height .25s ease;border-bottom:1px solid var(--line);background:#fff;}
+  .mobile-menu.open{max-height:360px;}
+  .mobile-menu a{display:block;padding:.75rem 1rem;border-bottom:1px solid #eee;text-decoration:none;color:#111;}
+  .mobile-menu a.admin-link{font-size:.9rem;color:#666;}
   .hero{grid-template-columns:1fr;min-height:auto;padding:1rem;gap:1rem;}
   .logo-placeholder{min-height:140px;}
   .hero-photo{min-height:280px;}
@@ -511,4 +511,4 @@ body:not(.admin-page) .site-footer .anvera-credit a:hover{border-color:#ecd3a9}
   .sticky-mobile-cta{display:block;position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid #111;padding:.7rem;z-index:1200;}
   .sticky-mobile-cta a{display:block;text-align:center;background:#111;color:#fff;padding:.8rem;border:1px solid #111;text-decoration:none;}
 }
-@media (min-width:768px){.mobile-nav{display:none !important;}}
+@media (min-width:768px){.mobile-menu{display:none !important;}}
