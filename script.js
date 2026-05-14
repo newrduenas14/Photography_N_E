@@ -123,22 +123,27 @@ function updateLocationFieldsVisibility() {
   const sessionType = document.getElementById("sessionType");
   const addressField = document.getElementById("addressField");
   const areaField = document.getElementById("areaField");
-  const address = document.getElementById("locationAddress");
+  const locationAddress = document.getElementById("locationAddress");
   const areaCode = document.getElementById("areaCode");
   const manualReviewMessage = document.getElementById("manualReviewMessage");
-  if (!sessionType) return;
-  const show = sessionType.value === "Location";
-  if (addressField) addressField.style.display = show ? "block" : "none";
-  if (areaField) areaField.style.display = show ? "block" : "none";
-  if (address) {
-    address.required = show;
-    if (!show) address.value = "";
+  if (!sessionType || !addressField || !areaField) return;
+
+  const isLocation = sessionType.value === "Location";
+  addressField.classList.toggle("hidden", !isLocation);
+  areaField.classList.toggle("hidden", !isLocation);
+
+  if (locationAddress) {
+    locationAddress.required = isLocation;
+    if (!isLocation) locationAddress.value = "";
   }
   if (areaCode) {
-    areaCode.required = show;
-    if (!show) areaCode.value = "";
+    areaCode.required = isLocation;
+    if (!isLocation) areaCode.value = "";
   }
-  if (manualReviewMessage && !show) manualReviewMessage.style.display = "none";
+
+  if (manualReviewMessage && !isLocation) {
+    manualReviewMessage.classList.add("hidden");
+  }
 }
 
 function validateBookingForm() {
@@ -168,7 +173,7 @@ async function refreshTimesAndPrice() {
   document.getElementById("balanceDue").textContent = paymentOption === "full" ? formatCurrency(0) : formatCurrency(summary.balanceDue);
   const manualReviewMessage = document.getElementById("manualReviewMessage");
   if (manualReviewMessage) {
-    manualReviewMessage.style.display = summary.manualReview ? "block" : "none";
+    manualReviewMessage.classList.toggle("hidden", !summary.manualReview);
   }
 }
 
