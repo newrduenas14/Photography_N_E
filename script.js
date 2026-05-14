@@ -47,13 +47,18 @@ async function loadPackages() {
 function renderPackages(packages) {
   const grid = document.getElementById("packagesGrid");
   if (!grid) return;
-  grid.innerHTML = packages.map((pkg) => `<article class="card"><h3>${pkg.name}</h3><div class="package-summary"><span><strong>Price:</strong> ${formatCurrency(pkg.basePrice)}</span><span><strong>Duration:</strong> ${pkg.durationMinutes} min</span><span><strong>Edited:</strong> ${pkg.editedPhotos}</span></div><button class="text-link package-toggle" type="button" data-package="${pkg.id}">View details</button><p class="package-details" id="details-${pkg.id}">${pkg.description || ""}</p><div class="card-actions"><a href="packages.html">View Package</a><a href="booking.html">Book</a></div></article>`).join("");
+  grid.innerHTML = packages.map((pkg) => `<article class="card package-card" id="${pkg.id}-session"><h3>${pkg.name}</h3><p>${pkg.description || ""}</p><ul><li>${pkg.durationMinutes} min</li><li>${pkg.editedPhotos} edited photos</li><li>${formatCurrency(pkg.basePrice)}</li></ul><a class="text-link" href="booking.html?package=${pkg.id}-session">View package</a></article>`).join("");
 }
 
 function populatePackageDropdown(packages) {
   const select = document.getElementById("packageSelect");
   if (!select) return;
   select.innerHTML = '<option value="">Select a package</option>' + packages.map((pkg) => `<option value="${pkg.id}">${pkg.name} (${formatCurrency(pkg.basePrice)})</option>`).join("");
+  const packageParam = new URLSearchParams(window.location.search).get("package");
+  if (packageParam) {
+    const normalized = packageParam.replace(/-session$/,"" );
+    if (packages.some((pkg) => pkg.id === normalized)) select.value = normalized;
+  }
 }
 
 async function loadAreaFees() {
@@ -118,22 +123,27 @@ function updateLocationFieldsVisibility() {
   const sessionType = document.getElementById("sessionType");
   const addressField = document.getElementById("addressField");
   const areaField = document.getElementById("areaField");
-  const address = document.getElementById("locationAddress");
+  const locationAddress = document.getElementById("locationAddress");
   const areaCode = document.getElementById("areaCode");
   const manualReviewMessage = document.getElementById("manualReviewMessage");
-  if (!sessionType) return;
-  const show = sessionType.value === "Location";
-  if (addressField) addressField.style.display = show ? "block" : "none";
-  if (areaField) areaField.style.display = show ? "block" : "none";
-  if (address) {
-    address.required = show;
-    if (!show) address.value = "";
+  if (!sessionType || !addressField || !areaField) return;
+
+  const isLocation = sessionType.value === "Location";
+  addressField.classList.toggle("hidden", !isLocation);
+  areaField.classList.toggle("hidden", !isLocation);
+
+  if (locationAddress) {
+    locationAddress.required = isLocation;
+    if (!isLocation) locationAddress.value = "";
   }
   if (areaCode) {
-    areaCode.required = show;
-    if (!show) areaCode.value = "";
+    areaCode.required = isLocation;
+    if (!isLocation) areaCode.value = "";
   }
-  if (manualReviewMessage && !show) manualReviewMessage.style.display = "none";
+
+  if (manualReviewMessage && !isLocation) {
+    manualReviewMessage.classList.add("hidden");
+  }
 }
 
 function validateBookingForm() {
@@ -163,7 +173,7 @@ async function refreshTimesAndPrice() {
   document.getElementById("balanceDue").textContent = paymentOption === "full" ? formatCurrency(0) : formatCurrency(summary.balanceDue);
   const manualReviewMessage = document.getElementById("manualReviewMessage");
   if (manualReviewMessage) {
-    manualReviewMessage.style.display = summary.manualReview ? "block" : "none";
+    manualReviewMessage.classList.toggle("hidden", !summary.manualReview);
   }
 }
 
@@ -287,6 +297,34 @@ function initAdminDemo() {
 initAdminDemo();
 
 
-function initMobileNav(){const btn=document.querySelector(".mobile-menu-toggle");const nav=document.querySelector(".mobile-nav");if(!btn||!nav)return;btn.addEventListener("click",()=>{const open=nav.classList.toggle("open");btn.setAttribute("aria-expanded",String(open));nav.setAttribute("aria-hidden",String(!open));btn.textContent=open?"×":"☰";});nav.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>{nav.classList.remove("open");btn.setAttribute("aria-expanded","false");nav.setAttribute("aria-hidden","true");btn.textContent="☰";}));}
+function initMobileNav(){
+  const btn=document.querySelector(".menu-toggle");
+  const nav=document.querySelector(".mobile-menu");
+  if(!btn||!nav)return;
+  btn.addEventListener("click",()=>{
+    const open=nav.classList.toggle("open");
+    btn.setAttribute("aria-expanded",String(open));
+    nav.setAttribute("aria-hidden",String(!open));
+    btn.textContent=open?"×":"☰";
+  });
+  nav.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>{
+    nav.classList.remove("open");
+    btn.setAttribute("aria-expanded","false");
+    nav.setAttribute("aria-hidden","true");
+    btn.textContent="☰";
+  }));
+}
+
+function initPackageDetailToggles(){
+  document.querySelectorAll('.package-toggle').forEach((btn)=>{
+    btn.addEventListener('click',()=>{
+      const details=document.getElementById(`details-${btn.dataset.package}`);
+      if(!details) return;
+      const open=details.classList.toggle('open');
+      btn.textContent=open?'Hide details':'View details';
+    });
+  });
+}
 
 initMobileNav();
+initPackageDetailToggles();
