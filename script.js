@@ -113,20 +113,24 @@ function populateAvailableTimes(times) {
   }
 }
 
-async function calculatePricePreview(packageId, sessionType, areaCode, promoCode, paymentOption) {
-  if (!packageId || !sessionType) return null;
-  if (sessionType === "Location" && !areaCode) return null;
+async function calculatePricePreview(selectedPackageId, selectedSessionType, selectedAreaCode, selectedPromoCode, selectedPaymentOption) {
+  if (!selectedPackageId || !selectedSessionType) return null;
+  if (selectedSessionType === "Location" && !selectedAreaCode) return null;
+
   const payload = {
     action: "calculatePrice",
-    packageId,
-    sessionType,
-    areaCode: sessionType === "Studio" ? "" : areaCode,
-    promoCode: promoCode || "",
-    paymentOption: paymentOption || "deposit",
+    packageId: selectedPackageId,
+    sessionType: selectedSessionType,
+    areaCode: selectedSessionType === "Location" ? selectedAreaCode : "",
+    promoCode: selectedPromoCode || "",
+    paymentOption: selectedPaymentOption || "deposit"
   };
-  console.log("calculatePrice payload", payload);
-  const result = await apiPost(payload);
-  console.log("calculatePrice response", result);
+
+  console.log("calculatePrice payload:", payload);
+  const res = await fetch(API_URL, { method: "POST", body: JSON.stringify(payload) });
+  const result = await res.json();
+  console.log("calculatePrice result:", result);
+
   if (!result.success) throw new Error(getFriendlyError(result, "Unable to calculate price right now."));
   return result.data;
 }
@@ -172,38 +176,42 @@ function validateBookingForm() {
 
 async function refreshTimesAndPrice() {
   const date = document.getElementById("dateInput")?.value;
-  const packageId = document.getElementById("packageSelect")?.value;
-  const sessionType = document.getElementById("sessionType")?.value;
-  const areaCode = document.getElementById("areaCode")?.value;
-  const promoCode = document.getElementById("promoCode")?.value;
-  const paymentOption = document.getElementById("paymentOption")?.value;
+  const selectedPackageId = document.getElementById("packageSelect")?.value;
+  const selectedSessionType = document.getElementById("sessionType")?.value;
+  const selectedAreaCode = document.getElementById("areaCode")?.value;
+  const selectedPromoCode = document.getElementById("promoCode")?.value;
+  const selectedPaymentOption = document.getElementById("paymentOption")?.value;
   const formMessage = document.getElementById("formMessage");
 
-  if (date && packageId && sessionType) {
-    const times = await loadAvailableTimes(date, packageId, sessionType);
+  if (date && selectedPackageId && selectedSessionType) {
+    const times = await loadAvailableTimes(date, selectedPackageId, selectedSessionType);
     populateAvailableTimes(times);
   }
 
-  if (!packageId || !sessionType || (sessionType === "Location" && !areaCode)) {
+  console.log("selectedPackageId:", selectedPackageId);
+  console.log("selectedSessionType:", selectedSessionType);
+  console.log("selectedAreaCode:", selectedAreaCode);
+
+  if (!selectedPackageId || !selectedSessionType || (selectedSessionType === "Location" && !selectedAreaCode)) {
     if (formMessage) formMessage.textContent = "";
     return;
   }
 
   try {
-    const summary = await calculatePricePreview(packageId, sessionType, areaCode, promoCode, paymentOption);
+    const summary = await calculatePricePreview(selectedPackageId, selectedSessionType, selectedAreaCode, selectedPromoCode, selectedPaymentOption);
     if (!summary) return;
 
     document.getElementById("basePriceAmount").textContent = formatCurrency(summary.basePrice || 0);
-    document.getElementById("locationFeeAmount").textContent = formatCurrency(sessionType === "Studio" ? 0 : (summary.extraFee || 0));
+    document.getElementById("locationFeeAmount").textContent = formatCurrency(selectedSessionType === "Studio" ? 0 : (summary.extraFee || 0));
     document.getElementById("discountAmount").textContent = formatCurrency(summary.discountAmount || 0);
     document.getElementById("totalAmount").textContent = formatCurrency(summary.totalPrice || 0);
     document.getElementById("depositAmount").textContent = formatCurrency(summary.amountDueNow || 0);
     document.getElementById("balanceDue").textContent = formatCurrency(summary.balanceDue || 0);
 
-    const selectedArea = state.areaFees.find((a) => a.areaCode === areaCode);
+    const selectedArea = state.areaFees.find((a) => a.areaCode === selectedAreaCode);
     const manualReviewMessage = document.getElementById("manualReviewMessage");
     if (manualReviewMessage) {
-      const manualReview = sessionType === "Location" && (summary.manualReviewRequired || selectedArea?.requiresManualReview);
+      const manualReview = selectedSessionType === "Location" && (summary.manualReviewRequired || selectedArea?.requiresManualReview);
       manualReviewMessage.textContent = "This location may require manual confirmation.";
       manualReviewMessage.classList.toggle("hidden", !manualReview);
     }
