@@ -63,17 +63,17 @@ async function loadPackages() {
 function renderPackages(packages) {
   const grid = document.getElementById("packagesGrid");
   if (!grid) return;
-  grid.innerHTML = packages.map((pkg) => `<article class="card package-card" id="${pkg.id}-session"><h3>${pkg.name}</h3><p>${pkg.description || ""}</p><ul><li>${pkg.durationMinutes || pkg.duration || ""} min</li><li>${pkg.editedPhotos || ""} edited photos</li><li>${formatCurrency(pkg.basePrice)}</li></ul><a class="text-link" href="booking.html?package=${pkg.id}-session">View package</a></article>`).join("");
+  grid.innerHTML = packages.map((pkg) => `<article class="card package-card" id="${pkg.packageId || pkg.id}-session"><h3>${pkg.packageName || pkg.name}</h3><p>${pkg.description || ""}</p><ul><li>${pkg.durationMinutes} min</li><li>${pkg.editedPhotos} edited photos</li><li>${formatCurrency(pkg.basePrice)}</li></ul><a class="text-link" href="booking.html?package=${pkg.packageId || pkg.id}-session">View package</a></article>`).join("");
 }
 
 function populatePackageDropdown(packages) {
   const select = document.getElementById("packageSelect");
   if (!select) return;
-  select.innerHTML = '<option value="">Select a package</option>' + packages.map((pkg) => `<option value="${pkg.id}">${pkg.name} (${formatCurrency(pkg.basePrice)})</option>`).join("");
+  select.innerHTML = '<option value="">Select a package</option>' + packages.map((pkg) => `<option value="${pkg.packageId || pkg.id}">${pkg.packageName || pkg.name} (${formatCurrency(pkg.basePrice)})</option>`).join("");
   const packageParam = new URLSearchParams(window.location.search).get("package");
   if (packageParam) {
     const normalized = packageParam.replace(/-session$/, "");
-    if (packages.some((pkg) => pkg.id === normalized)) select.value = normalized;
+    if (packages.some((pkg) => (pkg.packageId || pkg.id) === normalized)) select.value = normalized;
   }
 }
 
