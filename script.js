@@ -115,9 +115,20 @@ function populateAvailableTimes(times) {
 
 async function calculatePricePreview(packageId, sessionType, areaCode, promoCode, paymentOption) {
   if (!packageId || !sessionType) return null;
-  const response = await apiPost({ action: "calculatePrice", packageId, sessionType, areaCode, promoCode, paymentOption });
-  if (!response.success) throw new Error(getFriendlyError(response, "Unable to calculate price right now."));
-  return response.data;
+  if (sessionType === "Location" && !areaCode) return null;
+  const payload = {
+    action: "calculatePrice",
+    packageId,
+    sessionType,
+    areaCode: sessionType === "Studio" ? "" : areaCode,
+    promoCode: promoCode || "",
+    paymentOption: paymentOption || "deposit",
+  };
+  console.log("calculatePrice payload", payload);
+  const result = await apiPost(payload);
+  console.log("calculatePrice response", result);
+  if (!result.success) throw new Error(getFriendlyError(result, "Unable to calculate price right now."));
+  return result.data;
 }
 
 function updateLocationFieldsVisibility() {
@@ -168,36 +179,35 @@ async function refreshTimesAndPrice() {
   const paymentOption = document.getElementById("paymentOption")?.value;
   const formMessage = document.getElementById("formMessage");
 
-  if (!packageId || !sessionType || !date) return;
-  if (sessionType === "Location" && !areaCode) return;
-
-  try {
+  if (date && packageId && sessionType) {
     const times = await loadAvailableTimes(date, packageId, sessionType);
     populateAvailableTimes(times);
+  }
 
-    const summary = await calculatePricePreview(packageId, sessionType, sessionType === "Studio" ? "" : areaCode, promoCode, paymentOption);
-    const basePrice = summary.basePrice ?? summary.packageBasePrice ?? 0;
-    const locationFee = summary.locationFee ?? summary.travelFee ?? summary.extraFee ?? 0;
-    const discount = summary.discount ?? summary.promoDiscount ?? 0;
-    const total = summary.total ?? 0;
-    const deposit = summary.depositDueNow ?? summary.deposit ?? 0;
-    const balance = summary.balanceDueLater ?? summary.balanceDue ?? Math.max(0, total - deposit);
+  if (!packageId || !sessionType || (sessionType === "Location" && !areaCode)) {
+    if (formMessage) formMessage.textContent = "";
+    return;
+  }
 
-    document.getElementById("basePriceAmount").textContent = formatCurrency(basePrice);
-    document.getElementById("locationFeeAmount").textContent = formatCurrency(locationFee);
-    document.getElementById("discountAmount").textContent = `-${formatCurrency(discount)}`;
-    document.getElementById("totalAmount").textContent = formatCurrency(total);
-    document.getElementById("depositAmount").textContent = formatCurrency(deposit);
-    document.getElementById("balanceDue").textContent = formatCurrency(balance);
+  try {
+    const summary = await calculatePricePreview(packageId, sessionType, areaCode, promoCode, paymentOption);
+    if (!summary) return;
+
+    document.getElementById("basePriceAmount").textContent = formatCurrency(summary.basePrice || 0);
+    document.getElementById("locationFeeAmount").textContent = formatCurrency(sessionType === "Studio" ? 0 : (summary.extraFee || 0));
+    document.getElementById("discountAmount").textContent = formatCurrency(summary.discountAmount || 0);
+    document.getElementById("totalAmount").textContent = formatCurrency(summary.totalPrice || 0);
+    document.getElementById("depositAmount").textContent = formatCurrency(summary.amountDueNow || 0);
+    document.getElementById("balanceDue").textContent = formatCurrency(summary.balanceDue || 0);
 
     const selectedArea = state.areaFees.find((a) => a.areaCode === areaCode);
     const manualReviewMessage = document.getElementById("manualReviewMessage");
     if (manualReviewMessage) {
-      const manualReview = sessionType === "Location" && (summary.requiresManualReview || selectedArea?.requiresManualReview);
+      const manualReview = sessionType === "Location" && (summary.manualReviewRequired || selectedArea?.requiresManualReview);
       manualReviewMessage.textContent = "This location may require manual confirmation.";
       manualReviewMessage.classList.toggle("hidden", !manualReview);
     }
-    if (formMessage && times.length > 0) formMessage.textContent = "";
+    if (formMessage) formMessage.textContent = "";
   } catch (err) {
     if (formMessage) {
       formMessage.textContent = err.message;
