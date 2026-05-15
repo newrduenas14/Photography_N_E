@@ -1,4 +1,4 @@
-const APPS_SCRIPT_URL = "";
+const API_URL = "https://script.google.com/macros/s/AKfycbwG1CqIWCTxUns_w1mbkyU01fdDhnRqD3UtHwFWL69dOpM7UKlsGNLu5oN4q2hfCTqlGw/exec";
 
 const BUSINESS_CONFIG = {
   currency: "USD",
@@ -30,15 +30,31 @@ const formatCurrency = (value) => new Intl.NumberFormat("en-US", { style: "curre
 const toMinutes = (hhmm) => { const [h,m] = hhmm.split(":").map(Number); return (h*60)+m; };
 const toTimeLabel = (mins) => new Date(2000,0,1,Math.floor(mins/60),mins%60).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
 
-async function apiGet(endpoint) {
-  if (!APPS_SCRIPT_URL) return { success: false };
-  const res = await fetch(`${APPS_SCRIPT_URL}?endpoint=${encodeURIComponent(endpoint)}`);
+async function apiGet(action, params = {}) {
+  const url = new URL(API_URL);
+  url.searchParams.set("action", action);
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== undefined && value !== null && value !== "") url.searchParams.set(key, value);
+  });
+  const res = await fetch(url.toString());
   return res.json();
 }
 
+async function apiPost(payload) {
+  const res = await fetch(API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  return res.json();
+}
+
+function getFriendlyError(response, fallback = "Something went wrong. Please try again.") {
+  return response?.error || fallback;
+}
+
 async function loadPackages() {
-  // Future Apps Script call: GET packages
-  const response = APPS_SCRIPT_URL ? await apiGet("packages") : { success: false };
+  const response = await apiGet("getPackages");
   state.packages = response.success ? response.data : FALLBACK_DATA.packages.filter((p) => p.active);
   renderPackages(state.packages);
   populatePackageDropdown(state.packages);
@@ -47,23 +63,22 @@ async function loadPackages() {
 function renderPackages(packages) {
   const grid = document.getElementById("packagesGrid");
   if (!grid) return;
-  grid.innerHTML = packages.map((pkg) => `<article class="card package-card" id="${pkg.id}-session"><h3>${pkg.name}</h3><p>${pkg.description || ""}</p><ul><li>${pkg.durationMinutes} min</li><li>${pkg.editedPhotos} edited photos</li><li>${formatCurrency(pkg.basePrice)}</li></ul><a class="text-link" href="booking.html?package=${pkg.id}-session">View package</a></article>`).join("");
+  grid.innerHTML = packages.map((pkg) => `<article class="card package-card" id="${pkg.packageId || pkg.id}-session"><h3>${pkg.packageName || pkg.name}</h3><p>${pkg.description || ""}</p><ul><li>${pkg.durationMinutes} min</li><li>${pkg.editedPhotos} edited photos</li><li>${formatCurrency(pkg.basePrice)}</li></ul><a class="text-link" href="booking.html?package=${pkg.packageId || pkg.id}-session">View package</a></article>`).join("");
 }
 
 function populatePackageDropdown(packages) {
   const select = document.getElementById("packageSelect");
   if (!select) return;
-  select.innerHTML = '<option value="">Select a package</option>' + packages.map((pkg) => `<option value="${pkg.id}">${pkg.name} (${formatCurrency(pkg.basePrice)})</option>`).join("");
+  select.innerHTML = '<option value="">Select a package</option>' + packages.map((pkg) => `<option value="${pkg.packageId || pkg.id}">${pkg.packageName || pkg.name} (${formatCurrency(pkg.basePrice)})</option>`).join("");
   const packageParam = new URLSearchParams(window.location.search).get("package");
   if (packageParam) {
-    const normalized = packageParam.replace(/-session$/,"" );
-    if (packages.some((pkg) => pkg.id === normalized)) select.value = normalized;
+    const normalized = packageParam.replace(/-session$/, "");
+    if (packages.some((pkg) => (pkg.packageId || pkg.id) === normalized)) select.value = normalized;
   }
 }
 
 async function loadAreaFees() {
-  // Future Apps Script call: GET distanceFees
-  const response = APPS_SCRIPT_URL ? await apiGet("distanceFees") : { success: false };
+  const response = await apiGet("getDistanceFees");
   state.areaFees = response.success ? response.data : FALLBACK_DATA.areaFees.filter((a) => a.active);
   populateAreaDropdown(state.areaFees);
 }
@@ -75,48 +90,49 @@ function populateAreaDropdown(areaFees) {
 }
 
 async function loadAvailableDates() {
-  // Future Apps Script call: GET availableDates
   const dateInput = document.getElementById("dateInput");
   if (!dateInput) return;
   const today = new Date();
   dateInput.min = today.toISOString().split("T")[0];
-  const help = document.getElementById("dateHelp");
-  if (help) help.textContent = `Sundays and blocked dates are unavailable. Blocked: ${[...state.blockedDates].join(", ")}`;
 }
 
-async function loadAvailableTimes(date, packageId, sessionType, areaCode) {
-  // Future Apps Script call: GET availableTimes
-  const pkg = state.packages.find((p) => p.id === packageId);
-  if (!pkg || !date || !sessionType) return [];
-  const d = new Date(`${date}T00:00:00`);
-  if (d.getDay() === 0 || state.blockedDates.has(date)) return [];
-  const bufferMinutes = sessionType === "Location" ? BUSINESS_CONFIG.locationBufferMinutes : BUSINESS_CONFIG.studioBufferMinutes;
-  const times = [];
-  for (let t = BUSINESS_CONFIG.openingMinutes; t <= BUSINESS_CONFIG.closingMinutes; t += BUSINESS_CONFIG.slotIntervalMinutes) {
-    const sessionEnd = t + pkg.durationMinutes;
-    const bufferEnd = sessionEnd + bufferMinutes; // For backend blocking use later, not closing-time validation
-    void bufferEnd;
-    if (sessionEnd <= BUSINESS_CONFIG.closingMinutes) times.push(`${String(Math.floor(t/60)).padStart(2,"0")}:${String(t%60).padStart(2,"0")}`);
-  }
-  return times;
+async function loadAvailableTimes(date, packageId, sessionType) {
+  if (!date || !packageId || !sessionType) return [];
+  const response = await apiGet("getAvailableTimes", { date, packageId, sessionType });
+  return response.success ? (response.data || []) : [];
 }
 
 function populateAvailableTimes(times) {
   const timeInput = document.getElementById("timeInput");
+  const formMessage = document.getElementById("formMessage");
   if (!timeInput) return;
-  timeInput.innerHTML = '<option value="">Select a time</option>' + times.map((t) => `<option value="${t}">${toTimeLabel(toMinutes(t))}</option>`).join("");
+  timeInput.innerHTML = '<option value="">Select a time</option>' + times.map((t) => `<option value="${t}">${t}</option>`).join("");
+  if (formMessage && times.length === 0 && document.getElementById("dateInput")?.value) {
+    formMessage.textContent = "No available times for this date. Please choose another date.";
+    formMessage.style.color = "#e0c79c";
+  }
 }
 
-async function calculatePricePreview(packageId, sessionType, areaCode, promoCode) {
-  // Future Apps Script call: POST calculatePrice
-  const pkg = state.packages.find((p) => p.id === packageId);
-  if (!pkg) return { total: 0, deposit: 0, balanceDue: 0, manualReview: false };
-  const area = state.areaFees.find((a) => a.areaCode === areaCode);
-  const locationFee = sessionType === "Location" ? (area?.extraFee || 0) : 0;
-  const promoDiscount = promoCode && promoCode.trim().toUpperCase() === "DEMO10" ? 10 : 0;
-  const total = Math.max(0, pkg.basePrice + locationFee - promoDiscount);
-  const deposit = total * BUSINESS_CONFIG.depositRate;
-  return { total, deposit, balanceDue: total - deposit, manualReview: Boolean(sessionType === "Location" && area?.requiresManualReview === true) };
+async function calculatePricePreview(selectedPackageId, selectedSessionType, selectedAreaCode, selectedPromoCode, selectedPaymentOption) {
+  if (!selectedPackageId || !selectedSessionType) return null;
+  if (selectedSessionType === "Location" && !selectedAreaCode) return null;
+
+  const payload = {
+    action: "calculatePrice",
+    packageId: selectedPackageId,
+    sessionType: selectedSessionType,
+    areaCode: selectedSessionType === "Location" ? selectedAreaCode : "",
+    promoCode: selectedPromoCode || "",
+    paymentOption: selectedPaymentOption || "deposit"
+  };
+
+  console.log("calculatePrice payload:", payload);
+  const res = await fetch(API_URL, { method: "POST", body: JSON.stringify(payload) });
+  const result = await res.json();
+  console.log("calculatePrice result:", result);
+
+  if (!result.success) throw new Error(getFriendlyError(result, "Unable to calculate price right now."));
+  return result.data;
 }
 
 function updateLocationFieldsVisibility() {
@@ -160,20 +176,51 @@ function validateBookingForm() {
 
 async function refreshTimesAndPrice() {
   const date = document.getElementById("dateInput")?.value;
-  const packageId = document.getElementById("packageSelect")?.value;
-  const sessionType = document.getElementById("sessionType")?.value;
-  const areaCode = document.getElementById("areaCode")?.value;
-  const promoCode = document.getElementById("promoCode")?.value;
-  const paymentOption = document.getElementById("paymentOption")?.value;
-  const times = await loadAvailableTimes(date, packageId, sessionType, areaCode);
-  populateAvailableTimes(times);
-  const summary = await calculatePricePreview(packageId, sessionType, areaCode, promoCode);
-  document.getElementById("totalAmount").textContent = formatCurrency(summary.total);
-  document.getElementById("depositAmount").textContent = formatCurrency(summary.deposit);
-  document.getElementById("balanceDue").textContent = paymentOption === "full" ? formatCurrency(0) : formatCurrency(summary.balanceDue);
-  const manualReviewMessage = document.getElementById("manualReviewMessage");
-  if (manualReviewMessage) {
-    manualReviewMessage.classList.toggle("hidden", !summary.manualReview);
+  const selectedPackageId = document.getElementById("packageSelect")?.value;
+  const selectedSessionType = document.getElementById("sessionType")?.value;
+  const selectedAreaCode = document.getElementById("areaCode")?.value;
+  const selectedPromoCode = document.getElementById("promoCode")?.value;
+  const selectedPaymentOption = document.getElementById("paymentOption")?.value;
+  const formMessage = document.getElementById("formMessage");
+
+  if (date && selectedPackageId && selectedSessionType) {
+    const times = await loadAvailableTimes(date, selectedPackageId, selectedSessionType);
+    populateAvailableTimes(times);
+  }
+
+  console.log("selectedPackageId:", selectedPackageId);
+  console.log("selectedSessionType:", selectedSessionType);
+  console.log("selectedAreaCode:", selectedAreaCode);
+
+  if (!selectedPackageId || !selectedSessionType || (selectedSessionType === "Location" && !selectedAreaCode)) {
+    if (formMessage) formMessage.textContent = "";
+    return;
+  }
+
+  try {
+    const summary = await calculatePricePreview(selectedPackageId, selectedSessionType, selectedAreaCode, selectedPromoCode, selectedPaymentOption);
+    if (!summary) return;
+
+    document.getElementById("basePriceAmount").textContent = formatCurrency(summary.basePrice || 0);
+    document.getElementById("locationFeeAmount").textContent = formatCurrency(selectedSessionType === "Studio" ? 0 : (summary.extraFee || 0));
+    document.getElementById("discountAmount").textContent = formatCurrency(summary.discountAmount || 0);
+    document.getElementById("totalAmount").textContent = formatCurrency(summary.totalPrice || 0);
+    document.getElementById("depositAmount").textContent = formatCurrency(summary.amountDueNow || 0);
+    document.getElementById("balanceDue").textContent = formatCurrency(summary.balanceDue || 0);
+
+    const selectedArea = state.areaFees.find((a) => a.areaCode === selectedAreaCode);
+    const manualReviewMessage = document.getElementById("manualReviewMessage");
+    if (manualReviewMessage) {
+      const manualReview = selectedSessionType === "Location" && (summary.manualReviewRequired || selectedArea?.requiresManualReview);
+      manualReviewMessage.textContent = "This location may require manual confirmation.";
+      manualReviewMessage.classList.toggle("hidden", !manualReview);
+    }
+    if (formMessage) formMessage.textContent = "";
+  } catch (err) {
+    if (formMessage) {
+      formMessage.textContent = err.message;
+      formMessage.style.color = "#ff7b7b";
+    }
   }
 }
 
@@ -198,9 +245,40 @@ async function refreshTimesAndPrice() {
         formMessage.style.color = "#ff7b7b";
         return;
       }
-      // Future Apps Script call: POST createPendingCheckout
-      formMessage.textContent = "Validation complete. Backend connection pending (Google Apps Script endpoint not connected yet).";
-      formMessage.style.color = "#e0c79c";
+      const submitButton = document.getElementById("submitBookingButton");
+      if (submitButton) submitButton.disabled = true;
+      try {
+        const payload = {
+          action: "createPendingCheckout",
+          clientName: document.getElementById("name").value,
+          phone: document.getElementById("phone").value,
+          email: document.getElementById("email").value,
+          occasion: "",
+          packageId: document.getElementById("packageSelect").value,
+          sessionType: document.getElementById("sessionType").value,
+          areaCode: document.getElementById("sessionType").value === "Studio" ? "" : document.getElementById("areaCode").value,
+          areaName: document.getElementById("sessionType").value === "Studio" ? "Studio" : (state.areaFees.find((a)=>a.areaCode===document.getElementById("areaCode").value)?.areaName || ""),
+          locationAddress: document.getElementById("sessionType").value === "Studio" ? "" : document.getElementById("locationAddress").value,
+          sessionDate: document.getElementById("dateInput").value,
+          startTime: document.getElementById("timeInput").value,
+          paymentOption: document.getElementById("paymentOption").value,
+          notes: document.getElementById("notes").value
+        };
+        const response = await apiPost(payload);
+        if (!response.success) throw new Error(getFriendlyError(response, "Unable to save booking request."));
+        await refreshTimesAndPrice();
+        formMessage.textContent = "Your selected time has been temporarily held for 10 minutes. Please continue with payment or wait for confirmation.";
+        if (response.data?.stripeImplemented === false) {
+          formMessage.textContent += " Payment link is not active yet. Your request was saved as pending.";
+        }
+        formMessage.style.color = "#e0c79c";
+      } catch (submitErr) {
+        formMessage.textContent = submitErr.message;
+        formMessage.style.color = "#ff7b7b";
+        if (submitButton) submitButton.disabled = false;
+        return;
+      }
+      if (submitButton) submitButton.disabled = false;
     });
   }
 
