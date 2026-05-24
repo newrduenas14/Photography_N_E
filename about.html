@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About | Norma & Eduardo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .about-page {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 70px 24px 90px;
+      overflow-x: hidden;
+    }
+
+    .about-page .about-label,
+    .about-page .location-label {
+      margin: 0 0 14px;
+      font-size: 14px;
+      color: #111;
+    }
+
+    .about-page .about-intro {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: end;
+      margin-bottom: 42px;
+    }
+
+    .about-page .about-intro .section-title {
+      margin: 0;
+      font-size: 54px;
+      line-height: 1.05;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+    }
+
+    .about-page .about-intro-text {
+      margin: 0;
+      max-width: 500px;
+      color: #333;
+      font-size: 17px;
+      line-height: 1.72;
+    }
+
+    .about-page .about-photo-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+      margin-bottom: 44px;
+    }
+
+    .about-page .about-person-card h3 {
+      margin: 0 0 4px;
+      font-size: 21px;
+      font-weight: 500;
+      color: #111;
+    }
+
+    .about-page .about-person-card p {
+      margin: 0;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .about-page .about-photo-placeholder {
+      height: 420px;
+      width: 100%;
+      margin-bottom: 14px;
+      border: 1px solid #e5e5e5;
+      background: #f5f5f5;
+      color: #777;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      padding: 12px;
+    }
+
+    .about-page .about-photo-placeholder img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .about-page .about-bio-section {
+      display: grid;
+      grid-template-columns: 0.75fr 1.25fr;
+      gap: 52px;
+      border-top: 1px solid #e8e8e8;
+      padding: 55px 0;
+    }
+
+    .about-page .about-bio-section h2 {
+      margin: 0;
+      font-family: "Playfair Display", serif;
+      font-size: 38px;
+      line-height: 1.12;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+    }
+
+    .about-page .about-bio-section p {
+      margin: 0 0 16px;
+      max-width: 700px;
+      font-size: 16.5px;
+      line-height: 1.75;
+      color: #222;
+    }
+
+    .about-page .about-bio-section p:last-child {
+      margin-bottom: 0;
+    }
+
+    .about-page .about-vision-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .about-page .about-vision-grid article {
+      border-top: 1px solid #e8e8e8;
+      padding: 18px 10px 0 0;
+    }
+
+    .about-page .about-vision-grid h3 {
+      margin: 0 0 9px;
+      font-size: 19px;
+      font-weight: 500;
+      color: #111;
+    }
+
+    .about-page .about-vision-grid p {
+      margin: 0;
+      color: #444;
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    .about-page .location-section {
+      border-top: 1px solid #e8e8e8;
+      margin-top: 70px;
+      padding-top: 65px;
+    }
+
+    .about-page .location-intro {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 42px;
+      align-items: end;
+      margin-bottom: 30px;
+    }
+
+    .about-page .location-intro .section-title {
+      margin: 0;
+      font-size: clamp(34px, 4vw, 46px);
+      line-height: 1.08;
+      font-weight: 500;
+    }
+
+    .about-page .location-intro p {
+      margin: 0;
+      max-width: 520px;
+      color: #333;
+      font-size: 17px;
+      line-height: 1.72;
+    }
+
+    .about-page .location-grid {
+      display: grid;
+      grid-template-columns: 0.84fr 1.16fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    .about-page .location-card {
+      min-height: 380px;
+      border: 1px solid #e5e5e5;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .about-page .location-card h3 {
+      margin: 0 0 7px;
+      font-size: 15px;
+      font-weight: 600;
+      color: #111;
+    }
+
+    .about-page .location-card p {
+      margin: 0;
+      color: #222;
+      line-height: 1.65;
+      font-size: 15.5px;
+    }
+
+    .about-page .location-block {
+      margin-bottom: 22px;
+    }
+
+    .about-page .location-block:last-child {
+      margin-bottom: 0;
+    }
+
+    .about-page .map-link {
+      display: inline-block;
+      width: fit-content;
+      text-decoration: none;
+      color: #111;
+      border: 1px solid #111;
+      padding: 11px 16px;
+      transition: 0.2s ease;
+    }
+
+    .about-page .map-link:hover {
+      background: #111;
+      color: #fff;
+    }
+
+    .about-page .map-placeholder {
+      min-height: 380px;
+      border: 1px solid #e5e5e5;
+      background: #f5f5f5;
+      color: #777;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 22px;
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    @media (max-width: 1024px) {
+      .about-page .about-intro .section-title {
+        font-size: 38px;
+      }
+
+      .about-page .about-bio-section h2 {
+        font-size: 33px;
+      }
+    }
+
+    @media (max-width: 800px) {
+      .about-page {
+        padding: 48px 18px 72px;
+      }
+
+      .about-page .about-intro,
+      .about-page .about-photo-grid,
+      .about-page .about-bio-section,
+      .about-page .about-vision-grid,
+      .about-page .location-intro,
+      .about-page .location-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .about-page .about-intro {
+        gap: 16px;
+        margin-bottom: 30px;
+      }
+
+      .about-page .about-intro .section-title {
+        font-size: 32px;
+      }
+
+      .about-page .about-photo-placeholder {
+        height: 320px;
+      }
+
+      .about-page .about-photo-grid {
+        margin-bottom: 34px;
+      }
+
+      .about-page .about-bio-section {
+        gap: 20px;
+        padding: 38px 0 42px;
+      }
+
+      .about-page .about-bio-section h2 {
+        font-size: 30px;
+      }
+
+      .about-page .about-vision-grid {
+        gap: 16px;
+      }
+
+      .about-page .location-section {
+        margin-top: 50px;
+        padding-top: 46px;
+      }
+
+      .about-page .location-intro {
+        gap: 16px;
+        margin-bottom: 22px;
+      }
+
+      .about-page .location-card,
+      .about-page .map-placeholder {
+        min-height: 340px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header"><a href="index.html" class="brand">Photography by Norma & Eduardo</a><button class="menu-toggle" type="button" aria-label="Toggle menu" aria-expanded="false">☰</button><nav class="main-nav"><a href="index.html">Home</a><a href="packages.html">Packages</a><a href="gallery.html">Gallery</a><a class="active" href="about.html">About</a><a href="booking.html">Book a Session</a><a href="contact.html">Contact</a><a href="admin.html">Admin</a></nav></header><nav class="mobile-menu" aria-hidden="true"><a href="index.html">Home</a><a href="packages.html">Packages</a><a href="gallery.html">Gallery</a><a class="active" href="about.html">About</a><a href="booking.html">Book a Session</a><a href="contact.html">Contact</a><a class="admin-link" href="admin.html">Admin</a></nav>
+
+  <main class="about-page">
+    <section class="about-section" aria-labelledby="about-heading">
+      <p class="about-label">About</p>
+      <div class="about-intro">
+        <h1 id="about-heading" class="section-title">Photography by Norma &amp; Eduardo</h1>
+        <p class="about-intro-text">A clean, natural photography experience for portraits, families, milestones, studio sessions, and special moments.</p>
+      </div>
+
+      <div class="about-photo-grid">
+        <article class="about-person-card">
+          <div class="about-photo-placeholder">Norma photo</div>
+          <h3>Norma</h3>
+          <p>Photographer / Creative direction</p>
+        </article>
+        <article class="about-person-card">
+          <div class="about-photo-placeholder">Eduardo photo</div>
+          <h3>Eduardo</h3>
+          <p>Photographer / Lighting &amp; composition</p>
+        </article>
+      </div>
+
+      <div class="about-bio-section">
+        <h2>A shared vision behind every session.</h2>
+        <div>
+          <p>Norma and Eduardo work together as one photography team, combining creativity, direction, lighting, and attention to detail to create images that feel personal, natural, and timeless.</p>
+          <p>Their sessions are designed to make clients feel comfortable from the beginning. Whether it is a studio portrait, a family session, a graduation milestone, or a special celebration, their goal is to guide each person naturally so the final photos feel honest and meaningful.</p>
+          <p>As a team, they focus on capturing more than a pose. They look for the small details, real expressions, and quiet moments that make each session unique.</p>
+        </div>
+      </div>
+
+      <div class="about-vision-grid" aria-label="Vision points">
+        <article>
+          <h3>01 Comfort</h3>
+          <p>A session should feel relaxed, guided, and easy for every client.</p>
+        </article>
+        <article>
+          <h3>02 Natural style</h3>
+          <p>The focus is on clean images, soft direction, and real expressions.</p>
+        </article>
+        <article>
+          <h3>03 Meaningful memories</h3>
+          <p>Every gallery should feel beautiful now and valuable years later.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="location-section" aria-labelledby="location-heading">
+      <p class="location-label">Location</p>
+      <div class="location-intro">
+        <h2 id="location-heading" class="section-title">Visit the studio.</h2>
+        <p>Sessions can take place at the studio or on location, depending on availability, distance, and the type of session selected.</p>
+      </div>
+
+      <div class="location-grid">
+        <div class="location-card">
+          <div>
+            <div class="location-block">
+              <h3>Studio address</h3>
+              <p>704 E Griffin Pkwy, Mission, TX 78572</p>
+            </div>
+            <div class="location-block">
+              <h3>Service area</h3>
+              <p>Studio sessions are available by appointment. Location sessions may include an extra travel fee depending on distance.</p>
+            </div>
+            <div class="location-block">
+              <h3>Before your session</h3>
+              <p>After booking, clients receive confirmation with arrival details, parking information, and any preparation notes.</p>
+            </div>
+          </div>
+          <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=704%20E%20Griffin%20Pkwy%2C%20Mission%2C%20TX%2078572" target="_blank" rel="noopener noreferrer">Open in Google Maps</a>
+        </div>
+
+        <div class="map-placeholder map-embed" role="region" aria-label="Studio location map"><iframe src="https://www.google.com/maps?q=704%20E%20Griffin%20Pkwy%2C%20Mission%2C%20TX%2078572&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Photography by Norma & Eduardo studio location"></iframe></div>
+      </div>
+    </section>
+  </main>
+
+  
+
+  <script src="script.js"></script>
+
+<footer class="site-footer">
+  <div class="footer-inner container">
+    <div class="footer-brand">
+      <img src="images/footer-logo.png" alt="Photography by Norma &amp; Eduardo footer logo" class="footer-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+      <p class="footer-title footer-logo-fallback" style="display:none;">Photography by Norma &amp; Eduardo</p>
+      <p class="footer-description">Studio, outdoor, family, graduation, and event photography in the RGV.</p>
+    </div>
+    <div class="footer-column">
+      <h4>Menu</h4>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li><li><a href="packages.html">Packages</a></li><li><a href="gallery.html">Gallery</a></li><li><a class="active" href="about.html">About</a></li><li><a href="booking.html">Book a Session</a></li><li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-column">
+      <h4>Services</h4>
+      <ul class="footer-links">
+        <li><a href="gallery.html#studio-sessions">Studio Sessions</a></li><li><a href="gallery.html#outdoor-sessions">Outdoor Sessions</a></li><li><a href="gallery.html#family-sessions">Family Sessions</a></li><li><a href="gallery.html#graduation-sessions">Graduation Sessions</a></li><li><a href="gallery.html#event-photography">Event Photography</a></li>
+      </ul>
+    </div>
+    <div class="footer-column">
+      <h4>Contact</h4>
+      <ul class="footer-links">
+        <li><a href="mailto:photographynormaa@gmail.com">Email Us</a></li><li><a href="https://wa.me/19566953524" target="_blank" rel="noopener noreferrer">WhatsApp</a></li><li><a href="https://www.google.com/maps/search/?api=1&query=704%20E%20Griffin%20Pkwy%2C%20Mission%2C%20TX%2078572" target="_blank" rel="noopener noreferrer">Studio Location</a></li><li><a href="contact.html">Contact Page</a></li>
+      </ul>
+    </div>
+    <div class="footer-column footer-cta">
+      <h4>Stay Connected</h4>
+      <a class="footer-book-btn" href="booking.html">Book Now</a>
+      <ul class="footer-links footer-socials">
+        <li><a href="mailto:photographynormaa@gmail.com">Email</a></li><li><a href="https://wa.me/19566953524" target="_blank" rel="noopener noreferrer">WhatsApp</a></li><li><a href="tel:+19566953524">(956) 695-3524</a></li><li><a href="tel:+19564424814">(956) 442-4814</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Photography by Norma &amp; Eduardo. All rights reserved.</p>
+    <p class="anvera-credit">Website by <a href="https://newrduenas14.github.io/Anvera-Systems/" target="_blank" rel="noopener noreferrer">Anvera Systems</a></p>
+  </div>
+</footer>
+<div class="sticky-mobile-cta"><a href="booking.html">Book a Session</a></div>
+</body>
+</html>

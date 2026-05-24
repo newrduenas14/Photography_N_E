@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard | Photography by Norma & Eduardo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="admin-page">
+  <header class="site-header"><a href="index.html" class="brand">Photography by Norma & Eduardo</a><nav class="main-nav"><a href="index.html">Home</a><a href="packages.html">Packages</a><a href="gallery.html">Gallery</a><a href="about.html">About</a><a href="booking.html">Book a Session</a><a href="contact.html">Contact</a><a class="active" href="admin.html">Admin</a></nav></header>
+
+  <main class="section admin-shell">
+    <div class="container admin-wrap">
+      <section id="adminLogin" class="admin-login-card panel">
+        <p class="eyebrow">Private Access</p>
+        <h1>Admin Login</h1>
+        <p class="admin-help">Sign in with your authorized admin account. The original owner account can create users, reset passwords, and deactivate users.</p>
+        <form id="adminLoginForm" class="form-panel">
+          <label>Username <input id="adminUsername" type="text" required /></label>
+          <label>Password <input id="adminPassword" type="password" required /></label>
+          <button class="btn" type="submit">Sign In</button>
+          <p id="adminLoginMessage" class="form-msg"></p>
+        </form>
+      </section>
+
+      <section id="adminDashboard" class="admin-dashboard hidden">
+        <div class="admin-topbar">
+          <div>
+            <p class="eyebrow">Internal Workspace</p>
+            <h1 class="section-title">Admin Dashboard</h1>
+          </div>
+          <button id="adminLogout" class="btn btn-sm" type="button">Logout</button>
+        </div>
+
+        <div id="adminToast" class="admin-toast"></div>
+
+        <nav id="adminTabs" class="admin-tabs"></nav>
+        <section id="adminTabContent"></section>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer"><div class="container footer-wrap"><p>© <span id="year"></span> Photography by Norma &amp; Eduardo</p><span>Private admin dashboard</span></div></footer>
+  <script src="script.js"></script>
+</body>
+</html>
