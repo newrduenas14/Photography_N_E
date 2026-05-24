@@ -1,4 +1,4 @@
-const API_URL = "https://script.google.com/macros/s/AKfycbzuUm8xOg7esTV4b-UI_CgGPj4Cdg43P7PkSDNI93nNupXJe-quQ1JylEv-lr_4XUwGdA/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbyDZouMpJ-9T_58UnxdFjVj-0cDsvyg6o-JpAB7iQCZMRDiWVIezaGyc51ccHfVXnLp2Q/exec";
 
 const BUSINESS = {
   currency: "USD",
